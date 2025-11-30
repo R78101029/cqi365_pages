@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>住院醫師核心課程：腎臟替代療法 (RRT)</title>
+    <meta name="description" content="An Nan Hospital Nephrology Core Curriculum">
+    
+    <!-- 引入 Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 引入 FontAwesome 圖示庫 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 1. 全局設定 --- */
+        :root {
+            --primary-green: #15803d;  /* 安南醫院綠 */
+            --primary-dark: #052e16;
+            --accent-gold: #ca8a04;    /* 強調色金 */
+            --bg-color: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --nav-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: var(--nav-height); /* 為固定導航留空間 */
+        }
+
+        /* --- 2. 導航列 --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* --- 3. 容器與區塊 --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        section:nth-child(even) {
+            background-color: white;
+        }
+
+        /* --- 4. 排版樣式 --- */
+        h1 { font-size: 3rem; color: var(--primary-green); margin-bottom: 1rem; line-height: 1.2; }
+        h2 { 
+            font-size: 2.2rem; 
+            color: var(--primary-dark); 
+            margin-bottom: 3rem; 
+            text-align: center;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-gold);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        h3 { font-size: 1.5rem; color: var(--primary-green); margin-bottom: 1rem; }
+        p, li { font-size: 1.1rem; color: #334155; margin-bottom: 1rem; }
+        
+        .highlight { color: var(--accent-gold); font-weight: bold; }
+        .text-center { text-align: center; }
+
+        /* --- 5. 互動動畫 (Fade In Up) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 6. 組件樣式 --- */
+        
+        /* 網格系統 */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* 卡片 */
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            border: 1px solid #f1f5f9;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .card i { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--accent-gold); }
+
+        /* 時間軸 (垂直) */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #e2e8f0;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--primary-green);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
+        .right::after { left: -10px; }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* 圖片容器 */
+        .img-container {
+            width: 100%;
+            height: 350px; /* 固定高度保持一致 */
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 讓圖片填滿 */
+            transition: transform 0.5s ease;
+        }
+        .img-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Hero Header */
+        header.hero {
+            height: 90vh; /* 不佔滿全屏，留一點提示下面有內容 */
+            background-image: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.7)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: calc(-1 * var(--nav-height)); /* 抵銷 body padding */
+        }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background: var(--primary-green); color: white; }
+        .td-highlight { background: #dcfce7; color: var(--primary-dark); font-weight: bold; }
+
+        /* RWD */
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .timeline::after { left: 31px; }
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-container::after { left: 21px; }
+            .left { text-align: left; }
+            .right { left: 0; }
+            h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* 手機版暫隱藏連結 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 導航列 -->
+    <nav>
+        <div class="nav-logo">
+            <i class="fa-solid fa-hospital"></i> 安南醫院 | 腎臟科
+        </div>
+        <div class="nav-links">
+            <a href="#intro">簡介</a>
+            <a href="#principles">透析原理</a>
+            <a href="#modalities">治療模式</a>
+            <a href="#spat">SPAT 智慧醫療</a>
+            <a href="#decision">決策導航</a>
+        </div>
+    </nav>
+
+    <!-- Header: 封面 -->
+    <header class="hero" id="intro">
+        <div class="container reveal active">
+            <h1>Renal Replacement Therapy</h1>
+            <p style="font-size: 1.5rem; color: var(--accent-gold); font-weight: bold; margin-bottom: 2rem;">住院醫師核心課程 Core Curriculum</p>
+            <div style="width: 80px; height: 4px; background: var(--primary-green); margin: 0 auto 30px auto;"></div>
+            <p style="font-weight: 700; font-size: 1.25rem;">林軒名 主任</p>
+            <p style="color: #64748b;">安南醫院 腎臟科</p>
+            <br>
+            <a href="#objectives" style="display: inline-block; margin-top: 20px; color: var(--primary-green); animation: bounce 2s infinite;">
+                <i class="fa-solid fa-chevron-down fa-2x"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Section: 學習目標 -->
+    <section id="objectives">
+        <div class="container">
+            <h2 class="reveal">學習目標 Learning Objectives</h2>
+            <div class="grid-3">
+                <div class="card reveal">
+                    <i class="fa-solid fa-flask"></i>
+                    <h3>1. 原理 Principles</h3>
+                    <p>搞懂透析物理學：擴散 (Diffusion) vs. 對流 (Convection) 的機制差異。</p>
+                </div>
+                <div class="card reveal">
+                    <i class="fa-solid fa-microchip"></i>
+                    <h3>2. 模式 Modalities</h3>
+                    <p>熟悉 HD、CRRT、PD 的適應症與操作模式比較。</p>
+                </div>
+                <div class="card reveal">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <h3>3. 決策 Decision</h3>
+                    <p>學習為不同臨床情境（如 ICU 或門診）選擇最適合的治療。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 歷史演進 (垂直時間軸) -->
+    <section style="background-color: #fff;">
+        <div class="container">
+            <h2 class="reveal">RRT 的歷史演進</h2>
+            <div class="timeline reveal">
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>1913 - Abel</h3>
+                        <p>首次動物透析實驗，奠定概念基礎。</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3>1945 - Kolff</h3>
+                        <p>首例人體成功透析 (Rotating Drum)，搶救急性腎衰竭。</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>1960s - Scribner</h3>
+                        <p>發明動靜脈分流 (Shunt)，讓慢性透析成為可能。</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3>1977 - Kramer</h3>
+                        <p>CAVH 發表，連續性腎臟替代療法 (CRRT) 誕生。</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>Today - Modern</h3>
+                        <p>全自動化機器、生物相容性膜、智慧型腹膜透析。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 透析原理 -->
+    <section id="principles">
+        <div class="container">
+            <h2 class="reveal">透析物理學：核心機制</h2>
+            <div class="grid-2">
+                <div class="card reveal" style="border-top: 5px solid #3b82f6;">
+                    <div style="font-size: 3rem; color: #3b82f6; margin-bottom: 20px; text-align: center;"><i class="fa-solid fa-droplet"></i></div>
+                    <h3 class="text-center" style="color: #1e40af;">擴散 (Diffusion)</h3>
+                    <ul style="padding-left: 20px;">
+                        <li><strong>驅動力：</strong>濃度差 (Concentration)</li>
+                        <li><strong>機制：</strong>高濃度 → 低濃度</li>
+                        <li><strong>比喻：</strong>泡茶包 (茶味擴散)</li>
+                        <li><strong>代表：</strong>HD (血液透析)</li>
+                    </ul>
+                </div>
+                <div class="card reveal" style="border-top: 5px solid #ca8a04;">
+                    <div style="font-size: 3rem; color: #ca8a04; margin-bottom: 20px; text-align: center;"><i class="fa-solid fa-filter"></i></div>
+                    <h3 class="text-center" style="color: #854d0e;">對流 (Convection)</h3>
+                    <ul style="padding-left: 20px;">
+                        <li><strong>驅動力：</strong>壓力差 (Pressure/TMP)</li>
+                        <li><strong>機制：</strong>溶劑拖曳 (Solvent Drag)</li>
+                        <li><strong>比喻：</strong>手沖咖啡 (水壓萃取)</li>
+                        <li><strong>代表：</strong>CRRT (血液過濾)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 吸附作用 -->
+    <section>
+        <div class="container">
+            <h2 class="reveal">第三種力量：吸附 (Adsorption)</h2>
+            <div class="grid-2 reveal">
+                <div>
+                    <h3 style="color: var(--primary-green);">臨床關鍵：敗血症救星</h3>
+                    <p>分子直接黏附在半透膜的表面或深層結構中，就像濾網卡住了雜質。</p>
+                    <div style="background: #fefce8; padding: 20px; border-left: 5px solid var(--accent-gold); margin-top: 20px;">
+                        <p style="margin: 0; font-weight: bold;">在 Sepsis 治療中，吸附作用能額外清除發炎介質 (Cytokines)，這是傳統 HD 做不到的！</p>
+                    </div>
+                </div>
+                <!-- 替換為公開的抽象醫療圖片 -->
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1000&auto=format&fit=crop" alt="Microscope view">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 治療模式 (HD vs CRRT) -->
+    <section id="modalities" style="background-color: #f1f5f9;">
+        <div class="container">
+            <h2 class="reveal">IHD 與 CRRT 的決策</h2>
+            
+            <div class="grid-2 reveal" style="margin-bottom: 50px;">
+                <div class="img-container">
+                    <!-- 使用 ICU 設備圖片 -->
+                    <img src="https://images.unsplash.com/photo-1516549655169-df83a0833860?q=80&w=1000&auto=format&fit=crop" alt="ICU Equipment">
+                </div>
+                <div>
+                    <h3>CRRT：ICU 的黃金標準</h3>
+                    <p>24小時連續運作，模擬腎臟生理。</p>
+                    <ul class="fa-ul" style="margin-left: 1.5em;">
+                        <li><span class="fa-li"><i class="fa-solid fa-check text-green"></i></span><strong>血壓穩定度高：</strong>適合休克病人。</li>
+                        <li><span class="fa-li"><i class="fa-solid fa-check text-green"></i></span><strong>精準液體控制：</strong>給予足夠營養空間。</li>
+                        <li><span class="fa-li"><i class="fa-solid fa-check text-green"></i></span><strong>清除中大分子：</strong>有利於敗血症控制。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card reveal">
+                <h3 class="text-center">超級比一比</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">比較項目</th>
+                            <th style="width: 30%; background: #94a3b8;">IHD (間歇性)</th>
+                            <th style="width: 45%;">CRRT (連續性)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>治療時間</td>
+                            <td>4 小時 / 次</td>
+                            <td class="td-highlight">24 小時 / 天 (生理性)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>血壓穩定度</strong></td>
+                            <td style="color: #ef4444;">低 (易休克)</td>
+                            <td class="td-highlight"><i class="fa-solid fa-trophy text-gold"></i> 高 (極穩定)</td>
+                        </tr>
+                        <tr>
+                            <td>人力成本</td>
+                            <td class="td-highlight">低 (1:4)</td>
+                            <td>高 (1:1 ICU 照護)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 腹膜透析 (PD) -->
+    <section>
+        <div class="container">
+            <h2 class="reveal">腹膜透析：生活型態的選擇</h2>
+            <div class="grid-2 reveal">
+                <div>
+                    <h3 style="color: var(--primary-green);">人體的天然濾網</h3>
+                    <p>利用腹膜 (Peritoneum) 作為半透膜。分為三步驟：注入 → 留置 → 排出。</p>
+                    
+                    <div style="margin-top: 30px;">
+                        <h4 style="color: #0891b2; margin-bottom: 10px;"><i class="fa-solid fa-robot"></i> APD (全自動機洗)</h4>
+                        <p>利用<strong>睡眠時間</strong>機器換液，白天完全自由！適合上班族與學生。</p>
+                    </div>
+                </div>
+                <!-- 替換為腹膜透析圖示 (來自 prompt 中提到的連結) -->
+                <div class="img-container" style="background: white; border: 1px solid #eee;">
+                    <img 
+                        src="https://lirp.cdn-website.com/8668f1f0/dms3rep/multi/opt/peritoneal-dialysis-diagram-555x350-1920w.jpg" 
+                        alt="腹膜透析解剖圖" 
+                        style="object-fit: contain;"
+                    >
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: SPAT 智慧醫療 -->
+    <section id="spat" style="background-color: #ecfccb;">
+        <div class="container">
+            <h2 class="reveal" style="color: #14532d;">智慧型腹膜水療 (SPAT)</h2>
+            <p class="text-center reveal" style="font-size: 1.2rem; color: #166534; font-weight: bold; margin-bottom: 40px;">Smart Peritoneal Aqua-therapy</p>
+
+            <div class="grid-2 reveal">
+                <!-- 圖片替換區：智慧醫療/遠距醫療示意圖 -->
+                <div class="img-container">
+                    <img 
+                        src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000&auto=format&fit=crop" 
+                        alt="SPAT 智慧醫療與雲端監控" 
+                    >
+                </div>
+                
+                <div>
+                    <div class="card" style="border: none; background: rgba(255,255,255,0.8);">
+                        <h3 style="color: var(--accent-gold);">居家與醫療的完美結合</h3>
+                        <p style="font-size: 1.2rem;">
+                            APD (全自動) 的自由度 <br>
+                            <span style="display:inline-block; margin: 10px 0;">+</span><br> 
+                            雲端醫療 的專業支持
+                        </p>
+                        <ul class="fa-ul" style="margin-left: 1.5em; text-align: left;">
+                            <li><span class="fa-li"><i class="fa-solid fa-check" style="color:green;"></i></span><strong>高度自主：</strong>白天不需換液。</li>
+                            <li><span class="fa-li"><i class="fa-solid fa-check" style="color:green;"></i></span><strong>保留殘餘腎功能：</strong>優於 HD。</li>
+                            <li><span class="fa-li"><i class="fa-solid fa-check" style="color:green;"></i></span><strong>適合對象：</strong>兼顧工作與家庭的中年族群。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 案例與結語 -->
+    <section id="decision">
+        <div class="container">
+            <h2 class="reveal">真實案例：謝小姐的抉擇</h2>
+            <div class="grid-2 reveal">
+                <div style="background: #f8fafc; padding: 30px; border-radius: 16px;">
+                    <h3>背景</h3>
+                    <p>34歲，產後高血壓導致腎衰竭。需照顧新生兒並重返職場。</p>
+                    <hr style="margin: 20px 0; border-color: #e2e8f0;">
+                    <p style="color: #ef4444;"><i class="fa-solid fa-xmark"></i> <strong>HD：</strong>每週跑醫院三天，無法兼顧育兒。</p>
+                    <p style="color: var(--primary-green); font-weight: bold;"><i class="fa-solid fa-check"></i> <strong>PD (SPAT)：</strong>睡眠時間治療，白天全心育兒。</p>
+                </div>
+                <!-- 替換為溫馨親子圖片 -->
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1533519897262-b131a2965384?q=80&w=1000&auto=format&fit=crop" alt="Mother and Child">
+                </div>
+            </div>
+
+            <div style="margin-top: 80px; text-align: center;" class="reveal">
+                <h2 style="font-size: 3rem; color: var(--primary-green); border: none;">給病人多一種機會</h2>
+                <p style="font-size: 1.5rem; color: #64748b;">不僅是延長生命，更是維持生活的品質。</p>
+                <div style="margin-top: 50px;">
+                    <p style="font-weight: bold; font-size: 1.2rem;">安南醫院 腎臟科 | 林軒名 主任</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background: #1e293b; color: #94a3b8; padding: 40px 0; text-align: center;">
+        <p style="font-size: 0.9rem;">&copy; An Nan Hospital Nephrology Core Curriculum. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 簡單的 Scroll Reveal 動畫腳本
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                } else {
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
+        
+        // 觸發一次以顯示初始內容
+        reveal();
+    </script>
+</body>
+</html>
