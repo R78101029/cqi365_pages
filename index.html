@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>cqi365 投影片索引</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 40px; }
+    h1 { margin-bottom: 1rem; }
+    ul { line-height: 1.8; }
+  </style>
+</head>
+<body>
+  <h1>投影片列表（自動）</h1>
+  <ul id="file-list">
+    <li>載入中...</li>
+  </ul>
+
+  <script>
+    // 改成你的 user / repo
+    const user = "R78101029";
+    const repo = "cqi365_pages";
+
+    async function loadFiles() {
+      const ul = document.getElementById("file-list");
+      ul.innerHTML = "<li>載入中...</li>";
+      try {
+        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/`);
+        const data = await res.json();
+
+        // 過濾根目錄中的 .html 檔，排除 index.html 自己
+        const htmlFiles = data.filter(
+          item => item.type === "file" &&
+                  item.name.endsWith(".html") &&
+                  item.name !== "index.html"
+        );
+
+        ul.innerHTML = "";
+        htmlFiles.forEach(file => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = `./${file.name}`;
+          a.textContent = file.name;
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+
+        if (htmlFiles.length === 0) {
+          ul.innerHTML = "<li>目前沒有其他 HTML 檔案。</li>";
+        }
+      } catch (e) {
+        ul.innerHTML = "<li>載入失敗，請稍後再試。</li>";
+        console.error(e);
+      }
+    }
+
+    loadFiles();
+  </script>
+</body>
+</html>
