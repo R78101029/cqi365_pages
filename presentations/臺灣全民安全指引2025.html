@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>當危機來臨時：臺灣全民安全指引 | CQI365</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cqi: {
+                            blue: '#334155', // Slate-700
+                            teal: '#0f766e', // Teal-700
+                            light: '#f8fafc', // Slate-50
+                            accent: '#059669', // Emerald-600
+                            dark: '#1e293b', // Slate-800
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+        
+        /* Sound wave animation for alerts */
+        .sound-wave {
+            animation: pulse-width 2s infinite;
+        }
+        @keyframes pulse-width {
+            0% { transform: scaleX(1); opacity: 1; }
+            50% { transform: scaleX(1.1); opacity: 0.8; }
+            100% { transform: scaleX(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700 font-sans leading-relaxed">
+
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center flex-shrink-0">
+                    <a href="https://r78101029.github.io/cqi365_pages/" class="flex items-center gap-2 text-cqi-teal font-bold text-xl hover:text-cqi-accent transition-colors">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>CQI365 回目錄</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                    <a href="#prepare" class="hover:text-cqi-teal transition-colors">平時準備</a>
+                    <a href="#alerts" class="hover:text-cqi-teal transition-colors">警報識別</a>
+                    <a href="#firstaid" class="hover:text-cqi-teal transition-colors">急救互救</a>
+                    <a href="#response" class="hover:text-cqi-teal transition-colors">應變避難</a>
+                    <a href="#info" class="hover:text-cqi-teal transition-colors">資訊掌握</a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-cqi-teal focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#prepare" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-cqi-teal hover:bg-slate-50">平時準備</a>
+                <a href="#alerts" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-cqi-teal hover:bg-slate-50">警報識別</a>
+                <a href="#firstaid" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-cqi-teal hover:bg-slate-50">急救互救</a>
+                <a href="#response" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-cqi-teal hover:bg-slate-50">應變避難</a>
+                <a href="#info" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-cqi-teal hover:bg-slate-50">資訊掌握</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative w-full min-h-[60vh] flex items-center justify-center bg-slate-900">
+        <div class="absolute inset-0 z-0">
+            <img src="https://cqi365.net/wp-content/uploads/2024/06/Twitter_Header_Image.png" alt="Hero Background" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <span class="inline-block py-1 px-3 rounded-full bg-cqi-accent/20 text-cqi-accent border border-cqi-accent/30 text-sm font-semibold mb-4 backdrop-blur-sm">
+                全民國防手冊
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
+                當危機來臨時<br>
+                <span class="text-cqi-light text-3xl md:text-5xl font-light mt-2 block">臺灣全民安全指引</span>
+            </h1>
+            <p class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                我們的安全，建構在堅定的防衛意志，與平時就做好準備的決心。<br>
+                <span class="font-bold text-white">有準備，更安全。</span>
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <section id="prepare" class="fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-cqi-teal mb-4">01 平時的準備</h2>
+                <div class="w-20 h-1 bg-cqi-accent mx-auto rounded-full"></div>
+                <p class="mt-4 text-slate-600">平時先做好準備，危急時刻才能不慌不忙。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-cqi-teal mb-4">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">家庭成員狀況</h3>
+                    <p class="text-sm text-slate-600">你家總共幾個人？有沒有需要特別照顧的長者、小孩或寵物？</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-cqi-teal mb-4">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">緊急集合點</h3>
+                    <p class="text-sm text-slate-600">通訊中斷時，你有和家人約定好的集合處嗎？</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-cqi-teal mb-4">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">水與電力</h3>
+                    <p class="text-sm text-slate-600">停電時，是否有充足物資？加壓馬達停電後可能會停水。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-cqi-teal mb-4">
+                        <i class="fa-solid fa-pills"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">醫療需求</h3>
+                    <p class="text-sm text-slate-600">你的慢性病處方藥物，現在剩下幾天份？</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-cqi-teal mb-4">
+                        <i class="fa-solid fa-radio"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">通訊與廣播</h3>
+                    <p class="text-sm text-slate-600">有沒有一台可攜式收音機？知道緊急狀態時的收聽頻道嗎？</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-cqi-teal mb-4">
+                        <i class="fa-solid fa-person-shelter"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">避難場所</h3>
+                    <p class="text-sm text-slate-600">距離你家最近的緊急避難所在哪裡，你知道嗎？</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-16 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-teal-50 rounded-bl-full -z-0"></div>
+                <h3 class="text-2xl font-bold text-cqi-teal mb-6 relative z-10">
+                    <i class="fa-solid fa-rotate text-cqi-accent mr-2"></i>日常的居家儲備
+                </h3>
+                <div class="bg-teal-50/50 p-4 rounded-lg mb-6 border-l-4 border-cqi-teal">
+                    <p class="text-slate-700 font-medium">採用「循環儲備方式」：平時儲備 → 使用 → 再補充。建議最少準備一週份量。</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                    <div>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-bowl-food text-cqi-accent mt-1 mr-3"></i>
+                                <span><strong>食品：</strong>每人每日至少3公升飲用水、泡麵、乾麵、米、罐頭、調理包、餅乾、巧克力、堅果、調味料。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-box-tissue text-cqi-accent mt-1 mr-3"></i>
+                                <span><strong>生活用品：</strong>塑膠袋、保鮮膜、衛生紙、防切割手套、布質膠帶、食品用塑膠袋。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-kit-medical text-cqi-accent mt-1 mr-3"></i>
+                                <span><strong>衛生用品：</strong>急救箱、口罩、酒精、常備藥、處方藥、拋棄式隱形眼鏡、女性生理用品。</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-baby text-cqi-accent mt-1 mr-3"></i>
+                                <span><strong>嬰兒/年長者：</strong>奶粉、尿布、濕紙巾、助聽器電池、假牙清潔劑。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-paw text-cqi-accent mt-1 mr-3"></i>
+                                <span><strong>寵物用品：</strong>寵物食品、水、牽繩、排泄用品、餐具、飼主連絡資訊。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-flashlight text-cqi-accent mt-1 mr-3"></i>
+                                <span><strong>防災用品：</strong>卡式爐、瓦斯罐、手電筒、LED燈、電池、可攜式收音機、濾水工具。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-cqi-teal mb-6 flex items-center">
+                    <i class="fa-solid fa-person-hiking mr-3"></i>緊急避難包
+                </h3>
+                <div class="bg-slate-800 text-slate-200 p-4 rounded-lg mb-6">
+                    <p class="text-sm"><i class="fa-solid fa-circle-info mr-2 text-cqi-accent"></i>重點提示：放置於大門口或玄關。每半年檢查一次。重量建議：男性15kg、女性10kg以下。</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                        <h4 class="font-bold text-lg text-teal-800 border-b border-teal-100 pb-2 mb-3">基本生存</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>飲用水 (600ml x 2)</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>乾糧 (餅乾、巧克力、真空速食)</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>少量現金、零錢</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>身分證、健保卡、存摺影本</li>
+                        </ul>
+                    </div>
+                     <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                        <h4 class="font-bold text-lg text-teal-800 border-b border-teal-100 pb-2 mb-3">醫療清潔</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>優碘、棉花棒、紗布</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>個人常備藥 (注意時效)</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>口罩、乾洗手、濕紙巾</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>生理用品 (衛生棉/護墊)</li>
+                        </ul>
+                    </div>
+                    <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                        <h4 class="font-bold text-lg text-teal-800 border-b border-teal-100 pb-2 mb-3">裝備與衣物</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>輕便外套、雨衣、保暖毯</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>手套 (防切割)、哨子</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>手電筒、電池、收音機</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-teal-600"></i>行動電源、充電線</li>
+                        </ul>
+                    </div>
+                    <div class="border border-slate-200 rounded-lg p-5 bg-amber-50">
+                        <h4 class="font-bold text-lg text-amber-800 border-b border-amber-200 pb-2 mb-3">嬰幼兒專用</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li><i class="fa-regular fa-square-check mr-2 text-amber-600"></i>奶瓶、奶粉、副食品</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-amber-600"></i>尿布、背帶</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-amber-600"></i>奶嘴、安撫玩具</li>
+                        </ul>
+                    </div>
+                     <div class="border border-slate-200 rounded-lg p-5 bg-blue-50">
+                        <h4 class="font-bold text-lg text-blue-800 border-b border-blue-200 pb-2 mb-3">高齡長者專用</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li><i class="fa-regular fa-square-check mr-2 text-blue-600"></i>營養果凍、軟質食品</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-blue-600"></i>成人紙尿褲、常用藥</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-blue-600"></i>助聽器、假牙、老花眼鏡</li>
+                        </ul>
+                    </div>
+                    <div class="border border-slate-200 rounded-lg p-5 bg-green-50">
+                        <h4 class="font-bold text-lg text-green-800 border-b border-green-200 pb-2 mb-3">寵物專用</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li><i class="fa-regular fa-square-check mr-2 text-green-600"></i>寵物糧食、水</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-green-600"></i>外出籠、牽繩</li>
+                            <li><i class="fa-regular fa-square-check mr-2 text-green-600"></i>寵物常備藥品</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200">
+
+        <section id="alerts" class="fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-cqi-teal mb-4">02 辨識警報訊號</h2>
+                <div class="w-20 h-1 bg-cqi-accent mx-auto rounded-full"></div>
+            </div>
+
+            <div class="space-y-8">
+                <div class="bg-white rounded-xl shadow-lg border-l-8 border-red-600 overflow-hidden">
+                    <div class="p-6 md:p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <i class="fa-solid fa-jet-fighter text-red-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-800">防空警報 (Air Defense Alert)</h3>
+                                <p class="text-red-600 font-medium">[防空警報] 敵軍飛彈/火箭攻擊臺灣地區，請儘速避難。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-slate-50 p-6 rounded-lg mb-4">
+                            <h4 class="font-bold text-slate-700 mb-3">警報音符 (循環3次，共115秒)</h4>
+                            <div class="flex items-center space-x-2 text-xs font-mono text-slate-500 mb-2">
+                                <span>1長聲 (15秒)</span>
+                                <span>2短聲 (各5秒)</span>
+                                <span>間隔 (5秒)</span>
+                            </div>
+                            <div class="flex items-center h-8 space-x-1 w-full max-w-lg">
+                                <div class="h-full bg-red-500 w-1/4 rounded sound-wave flex items-center justify-center text-white text-xs">15s</div>
+                                <div class="h-full w-2"></div>
+                                <div class="h-full bg-red-500 w-1/12 rounded flex items-center justify-center text-white text-xs">5s</div>
+                                <div class="h-full w-2"></div>
+                                <div class="h-full bg-red-500 w-1/12 rounded flex items-center justify-center text-white text-xs">5s</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-slate-600">
+                            <span><strong>解除警報：</strong>長聲 90 秒</span>
+                            <a href="https://adr.npa.gov.tw/map" target="_blank" class="text-cqi-teal hover:underline"><i class="fa-solid fa-map-location-dot mr-1"></i>查詢避難所</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg border-l-8 border-blue-600 overflow-hidden">
+                    <div class="p-6 md:p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fa-solid fa-water text-blue-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-800">海嘯警報 (Tsunami Warning)</h3>
+                                <p class="text-blue-600 font-medium">語音廣播：「海嘯警報，海嘯警報，請所有民眾迅速往高處疏散」。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-slate-50 p-6 rounded-lg mb-4">
+                            <h4 class="font-bold text-slate-700 mb-3">警報模式</h4>
+                            <div class="flex items-center space-x-2 text-xs font-mono text-slate-500 mb-2">
+                                <span>鳴5秒</span>
+                                <span>停5秒</span>
+                                <span>鳴5秒</span>
+                                <span>-> 語音廣播2次</span>
+                            </div>
+                             <div class="flex items-center h-8 space-x-1 w-full max-w-lg">
+                                <div class="h-full bg-blue-500 w-1/6 rounded sound-wave"></div>
+                                <div class="h-full w-1/6 border-b border-dashed border-slate-300"></div>
+                                <div class="h-full bg-blue-500 w-1/6 rounded sound-wave"></div>
+                                <div class="h-full flex items-center pl-2 text-slate-700 font-bold"> <i class="fa-solid fa-bullhorn mr-1"></i> 語音廣播</div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-slate-600">
+                            <strong>行動準則：</strong>往內陸、高處（建議3層樓以上）及遠離海岸邊進行垂直避難。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section">
+            <h3 class="text-2xl font-bold text-cqi-teal mb-6"><i class="fa-solid fa-user-shield mr-2"></i>守護資安與防詐</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+                    <h4 class="text-xl font-bold text-red-800 mb-4">資安四不</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-center"><i class="fa-solid fa-ban text-red-600 mr-3 w-6 text-center"></i>不瀏覽可疑網站或點選不明連結。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-ban text-red-600 mr-3 w-6 text-center"></i>不亂掃 QR code。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-ban text-red-600 mr-3 w-6 text-center"></i>不下載可疑的檔案、App 及軟體。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-ban text-red-600 mr-3 w-6 text-center"></i>不連接可疑的 Wi-Fi。</li>
+                    </ul>
+                </div>
+                <div class="bg-teal-50 p-6 rounded-xl border border-teal-100">
+                    <h4 class="text-xl font-bold text-teal-800 mb-4">資安六要</h4>
+                    <ul class="space-y-3 text-sm md:text-base">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-teal-600 mr-3"></i>要定期更新密碼，避免過於簡單。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-teal-600 mr-3"></i>要備份資料與更新軟體。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-teal-600 mr-3"></i>要關閉未使用的 Wi-Fi/藍芽介面。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-teal-600 mr-3"></i>連結 Wi-Fi 時，要開啟加密防護。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-teal-600 mr-3"></i>機敏資料不再使用時，要刪除。</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-teal-600 mr-3"></i>接收網路訊息，要存疑、謹慎查證。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4 p-4 bg-slate-100 rounded text-sm text-slate-600">
+                <i class="fa-solid fa-triangle-exclamation text-yellow-600 mr-2"></i>
+                <strong>風險提示：</strong>部分應用程式（如 DeepSeek, WeChat, TikTok, 小紅書）及中國品牌具攝影功能的設備可能涉及個資蒐集風險，危機時甚至可能被敵方所用。
+            </div>
+        </section>
+
+        <hr class="border-slate-200">
+
+        <section id="firstaid" class="fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-cqi-teal mb-4">03 自救與互救</h2>
+                <div class="w-20 h-1 bg-cqi-accent mx-auto rounded-full"></div>
+                <p class="mt-4 text-slate-600">危機時醫療資源緊繃，學會簡單的急救能保護自己與家人。</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-600 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">1</span>
+                        無意識 (CPR + AED)
+                    </h3>
+                    <ol class="space-y-4 relative border-l-2 border-slate-100 ml-3 pl-6">
+                        <li class="relative">
+                            <span class="absolute -left-[31px] bg-white border-2 border-slate-200 w-4 h-4 rounded-full"></span>
+                            <strong>確認反應及呼吸：</strong>拍打雙肩，大聲呼喚。
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[31px] bg-white border-2 border-slate-200 w-4 h-4 rounded-full"></span>
+                            <strong>求救：</strong>指定人撥打 119，取得 AED。
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[31px] bg-white border-2 border-slate-200 w-4 h-4 rounded-full"></span>
+                            <strong>CPR 胸部按壓：</strong>
+                            <p class="text-sm text-slate-600 mt-1">位置：兩乳頭連線中央。<br>方式：兩手相扣、雙臂打直、掌根垂直下壓。<br>頻率：每分鐘 100-120 下，至少 5 公分深。</p>
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[31px] bg-white border-2 border-slate-200 w-4 h-4 rounded-full"></span>
+                            <strong>使用 AED：</strong>打開電源，依照語音指示操作。
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-600 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
+                        大量出血
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-phone text-slate-400 mt-1 mr-3"></i>
+                            <span>立刻撥打 119。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-hand-holding-medical text-slate-400 mt-1 mr-3"></i>
+                            <div>
+                                <strong>傷口加壓止血或使用止血帶：</strong>
+                                <ul class="list-disc ml-5 mt-2 text-sm text-slate-600">
+                                    <li><strong>若有止血帶：</strong>綁於出血點上方 5-8 公分，記錄時間。</li>
+                                    <li><strong>若無止血帶：</strong>用衣物或毛巾對出血處加壓；或使用圍巾搭配長棍作臨時止血帶。</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="bg-yellow-100 text-yellow-600 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">3</span>
+                        特殊傷害處置
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-cqi-teal">燒燙傷：沖、脫、泡、蓋、送</h4>
+                            <p class="text-sm text-slate-600">大量清水沖洗，脫去衣物，持續浸泡，覆蓋乾淨毛巾，立即送醫。</p>
+                        </div>
+                        <div class="border-t border-slate-100 pt-3">
+                            <h4 class="font-bold text-cqi-teal">毒化物質災害：避、脫、沖、送</h4>
+                            <p class="text-sm text-slate-600">遮住口鼻往上風處避難，脫去外衣，以乾布擦拭後大量清水沖洗，尋求醫療協助。</p>
+                        </div>
+                        <div class="border-t border-slate-100 pt-3">
+                            <h4 class="font-bold text-cqi-teal">核子事故：停、看、聽</h4>
+                            <p class="text-sm text-slate-600">進入室內關閉門窗，收聽政府資訊，配合疏散或服用碘片（碘片屬藥品，請勿擅自服用）。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200">
+
+        <section id="response" class="fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-cqi-teal mb-4">04 危機應變</h2>
+                <div class="w-20 h-1 bg-cqi-accent mx-auto rounded-full"></div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="bg-slate-100 p-4 font-bold text-slate-700 flex items-center">
+                        <i class="fa-solid fa-house-crack mr-3"></i> 天然災害應變
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-teal-800 mb-2">地震 (Earthquake)</h4>
+                            <ul class="text-sm space-y-2 list-disc ml-5 text-slate-600">
+                                <li><strong>室內：</strong>趴下、掩護、穩住（抓住桌腳）。</li>
+                                <li><strong>室外：</strong>遠離建築、招牌、電線桿。保護頭頸。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-teal-800 mb-2">颱風 (Typhoon)</h4>
+                            <ul class="text-sm space-y-2 list-disc ml-5 text-slate-600">
+                                <li>做好防颱準備，清除排水溝雜物。</li>
+                                <li>備妥食物與照明，勿外出。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border-l-4 border-slate-700">
+                    <div class="bg-slate-700 text-white p-4 font-bold flex items-center">
+                        <i class="fa-solid fa-shield-halved mr-3"></i> 軍事侵略應變
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <h4 class="font-bold text-lg mb-2">防空避難原則</h4>
+                            <p class="text-slate-600 mb-2">地下優於地上、室內優於室外、遠離外牆門窗。</p>
+                            <div class="bg-slate-100 p-4 rounded text-sm">
+                                <strong>戶外防護姿勢：</strong>保持趴下姿勢、嘴巴微張（平衡耳壓）、雙手保護頭部、背對爆炸方向。
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">發現敵軍行蹤時</h4>
+                            <ul class="list-disc ml-5 space-y-2 text-slate-600">
+                                <li>民眾可能難以辨別敵我，請遵守原則：</li>
+                                <li>發現疑似軍隊活動，儘速離開危險區域。</li>
+                                <li>若無法離開，請立即隱蔽。</li>
+                                <li class="text-red-600 font-bold">請勿隨意拍照錄影上傳我軍動態，以免洩漏軍機。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="info" class="fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-cqi-teal mb-4">05 資訊與通訊</h2>
+                <div class="w-20 h-1 bg-cqi-accent mx-auto rounded-full"></div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+                <div class="p-6 bg-teal-700 text-white">
+                    <h3 class="text-xl font-bold"><i class="fa-solid fa-tower-broadcast mr-2"></i>戰時廣播資訊</h3>
+                    <p class="text-teal-100 text-sm">若網路中斷，請使用收音機收聽以下頻道，或前往派出所/村里辦公室。</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 text-slate-600 text-sm uppercase">
+                            <tr>
+                                <th class="p-4 border-b">地區</th>
+                                <th class="p-4 border-b">頻道 (FM/AM)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-700 text-sm">
+                            <tr class="border-b hover:bg-slate-50">
+                                <td class="p-4 font-bold">北部地區</td>
+                                <td class="p-4">警廣 94.3 / 101.3 / 104.9, 漢聲 106.5</td>
+                            </tr>
+                            <tr class="border-b hover:bg-slate-50">
+                                <td class="p-4 font-bold">中部地區</td>
+                                <td class="p-4">警廣 94.5 / 105.1, 漢聲 104.5</td>
+                            </tr>
+                            <tr class="border-b hover:bg-slate-50">
+                                <td class="p-4 font-bold">南部地區</td>
+                                <td class="p-4">警廣 93.1 / 104.9, 漢聲 101.3 / 107.3</td>
+                            </tr>
+                            <tr class="border-b hover:bg-slate-50">
+                                <td class="p-4 font-bold">東部地區</td>
+                                <td class="p-4">警廣 94.3 / 101.3 / 104.3 / 106.5, 漢聲 104.5 / 105.3</td>
+                            </tr>
+                            <tr class="border-b hover:bg-slate-50">
+                                <td class="p-4 font-bold">外島地區</td>
+                                <td class="p-4">
+                                    澎湖: 漢聲 AM 846 / 1269<br>
+                                    金門: 漢聲 FM 107.3<br>
+                                    馬祖: 教育 FM 91.5
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="font-bold text-lg text-cqi-teal mb-4">心理健康與焦慮應對</h3>
+                    <p class="text-sm text-slate-600 mb-4">遭遇災變產生緊張、害怕是正常反應。</p>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><i class="fa-regular fa-circle mr-2 text-teal-500"></i>提升緊急應變能力，降低未知恐懼。</li>
+                        <li><i class="fa-regular fa-circle mr-2 text-teal-500"></i>與親友交談，降低孤獨感。</li>
+                        <li><i class="fa-regular fa-circle mr-2 text-teal-500"></i>減少閱讀過多負面新聞。</li>
+                        <li><i class="fa-regular fa-circle mr-2 text-teal-500"></i>衛生福利部安心專線：<strong>1925</strong></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="font-bold text-lg text-cqi-teal mb-4">假訊息防範 (3不1要)</h3>
+                    <ul class="space-y-3">
+                        <li class="font-bold text-slate-700">1. 不製造、2. 不輕信、3. 不轉傳、4. 要查證</li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-red-50 text-red-700 text-sm rounded">
+                        <strong>重要原則：</strong>倘若臺灣遭受軍事侵略，任何有關「國家戰敗」或「政府宣布投降」的訊息，<span class="font-bold underline">都是假訊息！</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section text-center max-w-3xl mx-auto">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">守護家園，需要你和我</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="p-4 bg-white shadow rounded">
+                    <i class="fa-solid fa-user-shield text-2xl text-cqi-teal mb-2"></i>
+                    <div class="font-bold text-sm">民防/義警消</div>
+                </div>
+                <div class="p-4 bg-white shadow rounded">
+                    <i class="fa-solid fa-person-military-rifle text-2xl text-cqi-teal mb-2"></i>
+                    <div class="font-bold text-sm">後備軍人</div>
+                </div>
+                <div class="p-4 bg-white shadow rounded">
+                    <i class="fa-solid fa-user-nurse text-2xl text-cqi-teal mb-2"></i>
+                    <div class="font-bold text-sm">防災士</div>
+                </div>
+                <div class="p-4 bg-white shadow rounded">
+                    <i class="fa-solid fa-hands-holding-child text-2xl text-cqi-teal mb-2"></i>
+                    <div class="font-bold text-sm">社區志工</div>
+                </div>
+            </div>
+            <p class="text-slate-600 italic">
+                「自由民主並非偶然，而是無數臺灣人犧牲、爭取而得。正因如此，我們不會向侵略低頭。」
+            </p>
+        </section>
+
+        <section class="bg-slate-800 text-white p-8 rounded-2xl shadow-inner">
+            <h3 class="text-xl font-bold mb-6 text-center">政府重要緊急專線</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div>
+                    <div class="text-3xl font-bold text-cqi-accent">119</div>
+                    <div class="text-sm text-slate-400">消防/救護</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-cqi-accent">110</div>
+                    <div class="text-sm text-slate-400">警察局</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-cqi-accent">1999</div>
+                    <div class="text-sm text-slate-400">縣市民服務</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-cqi-accent">118</div>
+                    <div class="text-sm text-slate-400">海巡救難</div>
+                </div>
+            </div>
+            <p class="text-center text-xs text-slate-400 mt-6">
+                * 若專線癱瘓，請前往附近派出所或村里辦公室。
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-300 py-12 mt-24 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="mb-6">
+                <span class="text-2xl font-bold text-white tracking-wider">CQI365</span>
+                <p class="text-cqi-accent text-sm uppercase tracking-widest mt-2">continuous quality improvement 365 days</p>
+            </div>
+            <div class="space-x-6 text-sm mb-8">
+                <a href="http://Cqi365.net" class="hover:text-white transition-colors">CQI365.net</a>
+                <a href="https://prepare.mnd.gov.tw" target="_blank" class="hover:text-white transition-colors">全民國防手冊官網</a>
+            </div>
+            <p class="text-xs text-slate-500">
+                內容來源：國防部全民防衛動員署《當危機來臨時：臺灣全民安全指引》<br>
+                本網頁僅供資訊推廣使用，完整內容請參閱官方文件。
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Fade-in Animation Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
