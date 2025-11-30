@@ -1,299 +1,306 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <title>CQI365 教學資源整理列表</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    :root {
-      color-scheme: light dark;
-      --bg: #f5f5f7;
-      --bg-card: #ffffff;
-      --border: #e0e0e0;
-      --text-main: #222222;
-      --text-sub: #666666;
-      --accent: #2563eb;
-      --accent-soft: #e0ecff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQI365 Knowledge Nexus 知識網絡 </title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    * { box-sizing: border-box; }
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    body {
-      margin: 0;
-      padding: 32px 16px 48px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #e0f2ff, #f5f5f7);
-      color: var(--text-main);
-    }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        cqi: {
+                            base: '#f8fafc',    // Slate-50
+                            primary: '#0f766e', // Teal-700
+                            secondary: '#334155', // Slate-700
+                            accent: '#10b981',  // Emerald-500
+                            card: '#ffffff',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'hover': '0 10px 25px -5px rgba(15, 118, 110, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
 
-    .wrapper {
-      max-width: 960px;
-      margin: 0 auto;
-    }
+    <style>
+        /* Custom Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    header {
-      margin-bottom: 20px;
-    }
+        .fade-in-up {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
 
-    h1 {
-      font-size: 1.7rem;
-      margin: 0 0 6px;
-    }
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+        }
 
-    .subtitle {
-      color: var(--text-sub);
-      font-size: 0.9rem;
-    }
-
-    .subtitle code {
-      background: rgba(15, 23, 42, 0.06);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border-radius: 14px;
-      padding: 18px 18px 16px;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
-      border: 1px solid var(--border);
-    }
-
-    /* 兩欄/單欄自適應布局 */
-    #file-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px 16px;
-    }
-
-    #file-list li {
-      margin: 0;
-    }
-
-    .link-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--text-main);
-      transition: background 0.16s ease, transform 0.1s ease, box-shadow 0.1s ease;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background-color: #ffffff;
-    }
-
-    .link-item:hover {
-      background: var(--accent-soft);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.18);
-    }
-
-    .link-title {
-      font-weight: 600;
-      font-size: 0.96rem;
-      margin-bottom: 2px;
-    }
-
-    .link-meta {
-      font-size: 0.78rem;
-      color: var(--text-sub);
-      word-break: break-all;
-    }
-
-    .pill {
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(37, 99, 235, 0.08);
-      color: var(--accent);
-      font-size: 0.75rem;
-      white-space: nowrap;
-      margin-left: 8px;
-    }
-
-    .empty-text {
-      color: var(--text-sub);
-      font-size: 0.9rem;
-    }
-
-    /* 分頁列 */
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      margin-top: 14px;
-      font-size: 0.9rem;
-      flex-wrap: wrap;
-    }
-
-    .page-btn {
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 4px 10px;
-      cursor: pointer;
-      min-width: 32px;
-      text-align: center;
-    }
-
-    .page-btn[disabled] {
-      opacity: 0.4;
-      cursor: default;
-    }
-
-    .page-btn.active {
-      background: var(--accent);
-      color: #ffffff;
-      border-color: var(--accent);
-    }
-
-    @media (max-width: 600px) {
-      body { padding: 20px 12px 32px; }
-      h1 { font-size: 1.4rem; }
-      .card { padding: 14px 14px 12px; }
-    }
-  </style>
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
-<body>
-  <div class="wrapper">
-    <header>
-      <h1>CQI365 教學資源整理列表</h1>
-      <p class="subtitle">
-        自動列出 HTML 簡報檔案，支援分頁與手機瀏覽。
-      </p>
+<body class="bg-cqi-base text-slate-600 antialiased flex flex-col min-h-screen">
+
+    <header class="relative w-full h-[400px] md:h-[450px] flex items-center justify-center overflow-hidden">
+        
+        <div class="absolute inset-0 z-0">
+            <img src="https://cqi365.net/wp-content/uploads/2024/06/Twitter_Header_Image.png" 
+                 alt="CQI365 Header" 
+                 class="w-full h-full object-cover object-center">
+            <div class="absolute inset-0 glass"></div>
+        </div>
+
+        <nav class="absolute top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-start">
+            <a href="https://r78101029.github.io/cqi365_pages/" 
+               class="glass-btn text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 group">
+                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span>回目錄首頁</span>
+            </a>
+        </nav>
+
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto animate-[fadeInUp_0.8s_ease-out]">
+            <div class="inline-block px-3 py-1 mb-4 border border-emerald-500/30 rounded-full bg-emerald-900/30 backdrop-blur-sm">
+                <span class="text-emerald-400 text-xs font-bold tracking-wider uppercase">Medical & Quality Archive</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight drop-shadow-lg">
+                CQI365 <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Knowledge Hub</span>
+            </h1>
+            
+            <p class="text-slate-200 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto leading-relaxed">
+                Continuous Quality Improvement 365 days.<br>
+                匯聚臨床洞見與效率工具的數位智庫。
+            </p>
+            
+            <div class="relative max-w-md mx-auto group">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <i class="fa-solid fa-search text-slate-400 group-focus-within:text-emerald-500 transition-colors"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                       class="block w-full p-4 pl-12 text-base text-slate-900 border-none rounded-full bg-white/90 focus:ring-4 focus:ring-emerald-500/30 focus:bg-white shadow-xl transition-all placeholder-slate-400 outline-none" 
+                       placeholder="搜尋簡報關鍵字...">
+            </div>
+        </div>
     </header>
 
-    <section class="card">
-      <ul id="file-list">
-        <li class="empty-text">載入中…</li>
-      </ul>
-      <div class="pagination" id="pagination" style="display:none;"></div>
-    </section>
-  </div>
+    <main class="flex-grow container mx-auto px-4 py-12 -mt-16 relative z-20">
+        
+        <div id="statusMsg" class="text-center py-8 hidden">
+            <span class="inline-flex items-center text-slate-600 bg-white/95 backdrop-blur px-6 py-3 rounded-full shadow-lg border border-slate-100">
+                <i class="fa-solid fa-circle-notch fa-spin mr-3 text-teal-600"></i> 正在連線至資料庫...
+            </span>
+        </div>
 
-  <script>
-    const user = "R78101029";
-    const repo = "cqi365_pages";
-    const folder = "presentations";
+        <div id="file-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
 
-    // 檔名對應顯示標題，可自行擴充
-    const titleMap = {
-      "RRT_education_20251130.html": "Renal Replacement Therapy 住院醫師核心課程 Core Curriculum",
-      "XPUintroduction.html": "XPU 介紹",
-      "antigravity_project.html": "Antigravity Research Manual 研究教學"
-    };
+        <div id="noResults" class="hidden flex-col items-center justify-center py-20 text-center opacity-0 animate-[fadeInUp_0.5s_ease-out_forwards]">
+            <div class="bg-slate-100 rounded-full p-8 mb-4">
+                <i class="fa-solid fa-magnifying-glass-location text-4xl text-slate-300"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-700">沒有找到相符的內容</h3>
+            <p class="text-slate-500 mt-2">請嘗試縮短關鍵字，或使用更廣泛的詞彙。</p>
+        </div>
+    </main>
 
-    const pageSize = 6;  // 每頁顯示幾筆
+    <footer class="bg-slate-900 text-slate-300 py-12 mt-auto border-t border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-center md:text-left">
+                    <a href="http://Cqi365.net" class="text-3xl font-bold text-white tracking-wider hover:text-emerald-400 transition-colors">
+                        CQI365
+                    </a>
+                    <p class="text-sm text-slate-500 mt-2 font-mono tracking-wide">Continuous quality improvement 365 days</p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-8 text-sm font-medium">
+                    <a href="https://r78101029.github.io/cqi365_pages/" class="hover:text-emerald-400 transition-colors flex items-center gap-2 group">
+                        <i class="fa-solid fa-layer-group group-hover:scale-110 transition-transform"></i> 回目錄首頁
+                    </a>
+                    <a href="http://Cqi365.net" class="hover:text-emerald-400 transition-colors flex items-center gap-2 group">
+                        <i class="fa-solid fa-house group-hover:scale-110 transition-transform"></i> 官方網站
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center text-xs text-slate-600 mt-10 border-t border-slate-800 pt-6">
+                &copy; <span id="year"></span> CQI365. All Rights Reserved. | Powered by GitHub Pages
+            </div>
+        </div>
+    </footer>
 
-    let items = [];       // 全部投影片資料
-    let currentPage = 1;  // 目前頁碼
+    <script>
+        // Set Year
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-    async function fetchFiles() {
-      const url = `https://api.github.com/repos/${user}/${repo}/contents/${folder}/`;
-      const res = await fetch(url, {
-        headers: {
-          "Accept": "application/vnd.github+json",
-          "X-GitHub-Api-Version": "2022-11-28"
+        // Config
+        const CONFIG = {
+            user: "R78101029",
+            repo: "cqi365_pages",
+            folder: "presentations"
+        };
+
+        const listContainer = document.getElementById("file-list");
+        const statusMsg = document.getElementById("statusMsg");
+        const searchInput = document.getElementById("searchInput");
+        const noResults = document.getElementById("noResults");
+        
+        let allFiles = []; // Store fetched files
+
+        // 1. Fetch Data
+        async function fetchFiles() {
+            statusMsg.classList.remove("hidden");
+            const url = `https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/contents/${CONFIG.folder}/`;
+            
+            try {
+                const res = await fetch(url, {
+                    headers: { "Accept": "application/vnd.github+json" }
+                });
+                
+                if (!res.ok) throw new Error(`GitHub API Error: ${res.status}`);
+                
+                const data = await res.json();
+                
+                // Filter only HTML files
+                allFiles = data.filter(item => item.type === "file" && item.name.endsWith(".html"));
+                
+                renderList(allFiles);
+            } catch (e) {
+                console.error(e);
+                listContainer.innerHTML = `
+                    <div class="col-span-full text-center p-12 bg-red-50/50 rounded-2xl border border-red-100 text-red-600 backdrop-blur-sm">
+                        <i class="fa-solid fa-triangle-exclamation text-3xl mb-4"></i><br>
+                        <h3 class="font-bold text-lg">無法載入資料</h3>
+                        <p class="text-sm text-red-400 mt-2">${e.message}</p>
+                        <p class="text-xs text-red-300 mt-1">請確認 GitHub Repository 公開權限。</p>
+                    </div>
+                `;
+            } finally {
+                statusMsg.classList.add("hidden");
+            }
         }
-      });
-      const data = await res.json();
-      if (!Array.isArray(data)) {
-        throw new Error(data.message || "API 回傳格式錯誤");
-      }
-      return data.filter(item => item.type === "file" && item.name.endsWith(".html"));
-    }
 
-    function renderPage(page) {
-      const ul = document.getElementById("file-list");
-      const pagination = document.getElementById("pagination");
+        // 2. Render Cards
+        function renderList(files) {
+            listContainer.innerHTML = "";
+            
+            if (files.length === 0) {
+                noResults.classList.remove("hidden");
+                noResults.classList.add("flex");
+                return;
+            } else {
+                noResults.classList.add("hidden");
+                noResults.classList.remove("flex");
+            }
 
-      if (!items.length) {
-        ul.innerHTML = '<li class="empty-text">目前沒有任何投影片。</li>';
-        pagination.style.display = "none";
-        return;
-      }
+            files.forEach((file, index) => {
+                // 1. 移除 .html
+                let displayName = file.name.replace(/\.html$/i, "");
+                // 2. 將底線取代為空白 (提升可讀性)
+                displayName = displayName.replace(/_/g, " ");
+                
+                const card = document.createElement("a");
+                card.href = `./${CONFIG.folder}/${file.name}`;
+                card.className = "group block bg-white rounded-2xl border border-slate-100 shadow-soft hover:shadow-hover transition-all duration-300 transform hover:-translate-y-1 overflow-hidden opacity-0 translate-y-4 observer-target flex flex-col h-full";
+                card.style.animationDelay = `${index * 50}ms`; // Stagger effect
 
-      const totalPages = Math.ceil(items.length / pageSize);
-      currentPage = Math.min(Math.max(1, page), totalPages);
+                // Card HTML Structure
+                card.innerHTML = `
+                    <div class="p-6 flex flex-col h-full relative z-0">
+                        <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-teal-500 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                        
+                        <div class="flex items-start justify-between mb-5">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100/50 flex items-center justify-center text-teal-600 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
+                                <i class="fa-solid fa-book-medical text-xl"></i>
+                            </div>
+                            <span class="text-[10px] font-bold tracking-wider text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200/60">
+                                HTML
+                            </span>
+                        </div>
+                        
+                        <h2 class="text-xl font-bold text-slate-800 mb-3 leading-snug group-hover:text-teal-700 transition-colors break-words">
+                            ${displayName}
+                        </h2>
+                        
+                        <div class="flex items-center justify-between mt-auto pt-5 border-t border-slate-50">
+                             <span class="text-xs text-slate-400 font-medium flex items-center">
+                                <i class="fa-regular fa-calendar-check mr-1.5 opacity-70"></i> Available
+                            </span>
+                            <span class="text-emerald-600 text-sm font-semibold flex items-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                閱讀內容 <i class="fa-solid fa-arrow-right-long ml-1.5"></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                listContainer.appendChild(card);
+            });
 
-      const start = (currentPage - 1) * pageSize;
-      const end = start + pageSize;
-      const slice = items.slice(start, end);
+            // Trigger Animation Observer
+            initObserver();
+        }
 
-      ul.innerHTML = "";
-      slice.forEach(file => {
-        const li = document.createElement("li");
+        // 3. Search Logic
+        searchInput.addEventListener("input", (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allFiles.filter(file => {
+                // 搜尋邏輯：比對原始檔名以及處理過的顯示名稱
+                const cleanName = file.name.replace(/\.html$/i, "").replace(/_/g, " ");
+                return file.name.toLowerCase().includes(term) || cleanName.toLowerCase().includes(term);
+            });
+            renderList(filtered);
+        });
 
-        const a = document.createElement("a");
-        a.className = "link-item";
-        a.href = `./${folder}/${file.name}`;
+        // 4. Animation Observer (ScrollSpy effect)
+        function initObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('opacity-0', 'translate-y-4');
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        const left = document.createElement("div");
-        const title = document.createElement("div");
-        title.className = "link-title";
-        title.textContent = titleMap[file.name] || file.name;
+            document.querySelectorAll('.observer-target').forEach(el => observer.observe(el));
+        }
 
-        const meta = document.createElement("div");
-        meta.className = "link-meta";
-        meta.textContent = file.name;
+        // Initialize
+        fetchFiles();
 
-        left.appendChild(title);
-        left.appendChild(meta);
-
-        const right = document.createElement("div");
-        right.className = "pill";
-        right.textContent = "HTML 簡報";
-
-        a.appendChild(left);
-        a.appendChild(right);
-        li.appendChild(a);
-        ul.appendChild(li);
-      });
-
-      // 分頁列
-      pagination.style.display = totalPages > 1 ? "flex" : "none";
-      pagination.innerHTML = "";
-
-      const prevBtn = document.createElement("button");
-      prevBtn.textContent = "上一頁";
-      prevBtn.className = "page-btn";
-      prevBtn.disabled = currentPage === 1;
-      prevBtn.onclick = () => renderPage(currentPage - 1);
-      pagination.appendChild(prevBtn);
-
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        btn.className = "page-btn" + (i === currentPage ? " active" : "");
-        btn.onclick = () => renderPage(i);
-        pagination.appendChild(btn);
-      }
-
-      const nextBtn = document.createElement("button");
-      nextBtn.textContent = "下一頁";
-      nextBtn.className = "page-btn";
-      nextBtn.disabled = currentPage === totalPages;
-      nextBtn.onclick = () => renderPage(currentPage + 1);
-      pagination.appendChild(nextBtn);
-    }
-
-    async function init() {
-      const ul = document.getElementById("file-list");
-      try {
-        items = await fetchFiles();
-        renderPage(1);
-      } catch (e) {
-        console.error(e);
-        ul.innerHTML = `<li class="empty-text">載入失敗：${e.message}</li>`;
-      }
-    }
-
-    init();
-  </script>
+    </script>
 </body>
 </html>
