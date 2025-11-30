@@ -1,0 +1,405 @@
+import React, { useState } from 'react';
+import { ChevronRight, ChevronLeft, Activity, Droplet, Clock, HeartPulse, UserCheck, Stethoscope, AlertTriangle, Home, BarChart2 } from 'lucide-react';
+
+const slides = [
+  {
+    id: 1,
+    title: "腎臟替代療法 (RRT) 全攻略",
+    subtitle: "住院醫師核心課程",
+    content: (
+      <div className="flex flex-col items-center justify-center h-full space-y-6">
+        <div className="bg-green-800 text-white p-6 rounded-lg shadow-xl">
+          <h1 className="text-4xl font-bold mb-2 text-center">Renal Replacement Therapy</h1>
+          <p className="text-xl text-center text-yellow-300">Core Curriculum for Residents</p>
+        </div>
+        <div className="text-center text-gray-700">
+          <p className="text-2xl font-semibold">講者：林軒名 主任</p>
+          <p className="text-lg">安南醫院 腎臟科</p>
+        </div>
+      </div>
+    ),
+    note: "開場白：歡迎各位醫師。今天這堂課不只是學技術，更是學觀念。RRT 是腎臟科的核心，也是 ICU 常見的處置。"
+  },
+  {
+    id: 2,
+    title: "學習目標 (Learning Objectives)",
+    content: (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full items-center">
+        <div className="bg-white p-6 rounded shadow border-t-4 border-green-600 flex flex-col items-center">
+          <Activity size={48} className="text-green-600 mb-4" />
+          <h3 className="text-xl font-bold mb-2">1. 原理 (Principles)</h3>
+          <p className="text-gray-600 text-center">搞懂擴散 (Diffusion) 與對流 (Convection) 的物理機制。</p>
+        </div>
+        <div className="bg-white p-6 rounded shadow border-t-4 border-yellow-500 flex flex-col items-center">
+          <SettingsIcon size={48} className="text-yellow-500 mb-4" />
+          <h3 className="text-xl font-bold mb-2">2. 模式 (Modalities)</h3>
+          <p className="text-gray-600 text-center">HD、CRRT、PD 的適應症與操作差異。</p>
+        </div>
+        <div className="bg-white p-6 rounded shadow border-t-4 border-blue-500 flex flex-col items-center">
+          <BrainIcon size={48} className="text-blue-500 mb-4" />
+          <h3 className="text-xl font-bold mb-2">3. 決策 (Decision)</h3>
+          <p className="text-gray-600 text-center">如何為病人選擇最適合的治療方案。</p>
+        </div>
+      </div>
+    ),
+    note: "這三點是今天的 Roadmap。特別是第三點「決策」，是成為成熟醫師的關鍵。"
+  },
+  {
+    id: 3,
+    title: "RRT 的歷史演進",
+    content: (
+      <div className="relative h-full flex flex-col justify-center">
+        <div className="absolute left-1/2 w-1 h-full bg-gray-200 transform -translate-x-1/2"></div>
+        
+        <div className="relative z-10 space-y-8">
+          <TimelineItem year="1913" author="Abel" event="首次動物實驗" side="left" />
+          <TimelineItem year="1945" author="Kolff" event="轉鼓人工腎 (首例人體成功)" side="right" highlight />
+          <TimelineItem year="1960s" author="Scribner" event="動靜脈分流 (慢性透析開始)" side="left" />
+          <TimelineItem year="1977" author="Kramer" event="CRRT (CAVH) 誕生" side="right" />
+          <TimelineItem year="Today" author="Modern" event="全自動智慧化透析" side="left" highlight />
+        </div>
+      </div>
+    ),
+    note: "1945年 Kolff 是關鍵，他在二戰期間用香腸膜做出了第一台人工腎臟，救活了急性腎衰竭病人。"
+  },
+  {
+    id: 4,
+    title: "透析物理學：擴散 vs. 對流",
+    content: (
+      <div className="grid grid-cols-2 gap-8 h-full">
+        <div className="bg-blue-50 p-6 rounded-lg flex flex-col">
+          <h3 className="text-2xl font-bold text-blue-800 mb-4 flex items-center"><Droplet className="mr-2"/> 擴散 (Diffusion)</h3>
+          <ul className="list-disc pl-5 space-y-3 flex-grow text-lg">
+            <li><strong>驅動力：</strong>濃度差 (Concentration Gradient)</li>
+            <li><strong>機制：</strong>溶質由高濃度往低濃度移動</li>
+            <li><strong>比喻：</strong><span className="text-blue-600 font-semibold">泡茶包</span> (茶味慢慢擴散)</li>
+            <li><strong>目標：</strong>小分子毒素 (Urea, Cr)</li>
+          </ul>
+          <div className="mt-4 p-3 bg-white rounded text-center font-bold text-blue-900 border border-blue-200">代表模式：HD</div>
+        </div>
+        <div className="bg-green-50 p-6 rounded-lg flex flex-col">
+          <h3 className="text-2xl font-bold text-green-800 mb-4 flex items-center"><Activity className="mr-2"/> 對流 (Convection)</h3>
+          <ul className="list-disc pl-5 space-y-3 flex-grow text-lg">
+            <li><strong>驅動力：</strong>壓力差 (Pressure / TMP)</li>
+            <li><strong>機制：</strong>溶劑拖曳 (Solvent Drag)</li>
+            <li><strong>比喻：</strong><span className="text-green-600 font-semibold">手沖咖啡</span> (水壓帶出物質)</li>
+            <li><strong>目標：</strong>中大分子 (Cytokines)</li>
+          </ul>
+          <div className="mt-4 p-3 bg-white rounded text-center font-bold text-green-900 border border-green-200">代表模式：HF (CRRT)</div>
+        </div>
+      </div>
+    ),
+    note: "這是最核心的觀念。HD 靠擴散，CRRT (HF) 靠對流。要洗掉敗血症的毒素(中大分子)，必須靠對流。"
+  },
+  {
+    id: 5,
+    title: "第三種力量：吸附 (Adsorption)",
+    content: (
+      <div className="flex flex-col h-full items-center justify-center space-y-6">
+        <div className="w-full max-w-2xl bg-gray-100 p-8 rounded-full shadow-inner flex items-center justify-center relative overflow-hidden h-64 border-4 border-gray-300">
+           <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/sponge.png')]"></div>
+           <div className="z-10 text-center">
+             <h3 className="text-3xl font-bold text-gray-700">Membrane</h3>
+             <div className="mt-4 flex justify-center space-x-2">
+                <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm animate-pulse">Cytokine</span>
+                <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm animate-pulse delay-75">IL-6</span>
+                <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm animate-pulse delay-150">TNF-α</span>
+             </div>
+             <p className="mt-4 text-gray-500">被深層結構「抓住」</p>
+           </div>
+        </div>
+        <div className="bg-white p-6 rounded shadow-lg w-full max-w-3xl">
+          <h4 className="text-xl font-bold text-red-600 mb-2">臨床關鍵</h4>
+          <p className="text-lg">在敗血症 (Sepsis) 中，吸附作用能額外清除發炎介質，這是傳統 HD 做不到的。</p>
+        </div>
+      </div>
+    ),
+    note: "吸附就像是濾網卡住了髒東西。有些特殊的濾心(如HA330)就是專門強化吸附功能的。"
+  },
+  {
+    id: 6,
+    title: "IHD vs. CRRT：超級比一比",
+    content: (
+      <div className="h-full flex flex-col justify-center">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="p-4 text-left text-lg">比較項目</th>
+              <th className="p-4 text-center text-lg text-gray-500">IHD (間歇性)</th>
+              <th className="p-4 text-center text-lg text-green-700 font-bold bg-green-50 border-t-4 border-green-500">CRRT (連續性)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b">
+              <td className="p-4 font-semibold">時間</td>
+              <td className="p-4 text-center">4 小時 / 次</td>
+              <td className="p-4 text-center bg-green-50 font-bold">24 小時 / 天</td>
+            </tr>
+            <tr className="border-b">
+              <td className="p-4 font-semibold">血壓穩定度</td>
+              <td className="p-4 text-center text-red-500 font-bold">低 (易休克)</td>
+              <td className="p-4 text-center bg-green-50 text-green-600 font-bold">高 (極穩定) <span className="text-xl">🏆</span></td>
+            </tr>
+            <tr className="border-b">
+              <td className="p-4 font-semibold">中分子清除</td>
+              <td className="p-4 text-center text-gray-400">弱</td>
+              <td className="p-4 text-center bg-green-50 text-green-600 font-bold">強 (敗血症首選)</td>
+            </tr>
+            <tr className="border-b">
+              <td className="p-4 font-semibold">人力成本</td>
+              <td className="p-4 text-center text-green-600">低 (1:4)</td>
+              <td className="p-4 text-center bg-green-50 text-red-500">高 (1:1 ICU)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="mt-6 p-4 bg-yellow-100 rounded text-center text-yellow-800 font-bold text-xl">
+          結論：生命徵象不穩定的 ICU 病人，CRRT 是唯一選擇。
+        </div>
+      </div>
+    ),
+    note: "記住這個表格。考試會考，臨床上選模式也是看這個。血壓不穩就選 CRRT。"
+  },
+  {
+    id: 7,
+    title: "CRRT 字母密碼破解",
+    content: (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+        <Card title="CVVH" subtitle="Hemofiltration" color="bg-orange-100" border="border-orange-500">
+          <ul className="text-sm space-y-2">
+             <li><strong>機制：</strong>純對流 (Convection)</li>
+             <li><strong>關鍵：</strong>置換液 (Replacement Fluid)</li>
+             <li><strong>用途：</strong>中分子清除強</li>
+          </ul>
+        </Card>
+        <Card title="CVVHD" subtitle="Hemodialysis" color="bg-blue-100" border="border-blue-500">
+           <ul className="text-sm space-y-2">
+             <li><strong>機制：</strong>純擴散 (Diffusion)</li>
+             <li><strong>關鍵：</strong>透析液 (Dialysate)</li>
+             <li><strong>用途：</strong>小分子清除強</li>
+          </ul>
+        </Card>
+        <Card title="CVVHDF" subtitle="Hemo-Dia-Filtration" color="bg-purple-100" border="border-purple-500" highlight>
+           <ul className="text-sm space-y-2">
+             <li><strong>機制：</strong>擴散 + 對流</li>
+             <li><strong>關鍵：</strong>雙管齊下</li>
+             <li><strong>用途：</strong>效率最高 (High Efficiency)</li>
+          </ul>
+        </Card>
+      </div>
+    ),
+    note: "CVVH 就像用濾網沖；CVVHD 就像泡；CVVHDF 是又沖又泡，最乾淨但成本最高。"
+  },
+  {
+    id: 8,
+    title: "腹膜透析 (PD)：CAPD vs. APD",
+    content: (
+       <div className="grid grid-cols-2 gap-8 h-full items-center">
+         <div className="text-center">
+            <h3 className="text-2xl font-bold mb-4 text-gray-700">CAPD (手洗)</h3>
+            <div className="w-48 h-48 mx-auto rounded-full border-4 border-gray-300 relative bg-white shadow-inner flex items-center justify-center">
+               <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-yellow-200 opacity-50 rounded-tr-full"></div>
+               <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-yellow-200 opacity-50 rounded-bl-full"></div>
+               <span className="text-sm font-bold text-gray-500 z-10">時間被切割</span>
+            </div>
+            <p className="mt-4 text-gray-600">每日換液 4-5 次<br/>白天活動被打斷</p>
+         </div>
+         <div className="text-center">
+            <h3 className="text-2xl font-bold mb-4 text-blue-700">APD (機洗)</h3>
+            <div className="w-48 h-48 mx-auto rounded-full border-4 border-blue-500 relative bg-blue-50 shadow-lg flex items-center justify-center">
+               <div className="w-full h-full bg-yellow-300 rounded-full flex items-center justify-center opacity-80">
+                  <span className="text-lg font-bold text-yellow-800">Daytime Free!</span>
+               </div>
+            </div>
+            <p className="mt-4 text-blue-700 font-semibold">機器夜間自動換液<br/>白天完全自由</p>
+         </div>
+       </div>
+    ),
+    note: "這張圖最能打動病人。APD 讓病人白天可以正常上班、上學，對年輕病人非常有吸引力。"
+  },
+  {
+    id: 9,
+    title: "安南醫院特色：SPAT",
+    content: (
+      <div className="flex flex-col items-center justify-center h-full space-y-8">
+        <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-600">
+          Smart Peritoneal Aqua-therapy
+        </h2>
+        <div className="bg-white p-8 rounded-xl shadow-2xl border-l-8 border-green-500 max-w-2xl w-full">
+           <div className="flex items-start space-x-4 mb-6">
+              <Home size={40} className="text-green-500" />
+              <div>
+                <h3 className="text-2xl font-bold text-gray-800">居家與醫療的完美結合</h3>
+                <p className="text-gray-600">APD (高度自由) + 雲端監控 (專業守護)</p>
+              </div>
+           </div>
+           <ul className="space-y-4">
+              <li className="flex items-center text-lg"><UserCheck className="mr-3 text-blue-500"/> 自主性高，生活不被綁架</li>
+              <li className="flex items-center text-lg"><HeartPulse className="mr-3 text-red-500"/> 保留殘餘腎功能</li>
+              <li className="flex items-center text-lg"><Stethoscope className="mr-3 text-green-500"/> 適合：中年、上班族、家庭照護者</li>
+           </ul>
+        </div>
+      </div>
+    ),
+    note: "這是我們醫院的特色。強調「Smart」，結合雲端醫療，讓病人回家但不孤單。"
+  },
+  {
+    id: 10,
+    title: "總結：決策導航圖",
+    content: (
+      <div className="flex flex-col h-full justify-center items-center space-y-6">
+        <div className="w-full max-w-3xl space-y-4">
+           {/* Step 1 */}
+           <div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300 text-center">
+              <h3 className="text-xl font-bold mb-2">Q1: 生命徵象穩定嗎？</h3>
+              <div className="flex justify-center space-x-8">
+                 <div className="text-red-500 font-bold">否 (ICU/休克) ⬇</div>
+                 <div className="text-green-600 font-bold">是 (穩定) ⬇</div>
+              </div>
+           </div>
+           
+           {/* Step 2 */}
+           <div className="flex justify-between px-4">
+              <div className="bg-red-50 p-4 rounded-lg border-2 border-red-300 w-1/3 text-center shadow-lg">
+                 <h3 className="text-2xl font-bold text-red-600">CRRT</h3>
+                 <p className="text-sm text-red-400">唯一選擇</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg border-2 border-green-300 w-1/2 text-center">
+                 <h3 className="text-xl font-bold mb-2 text-green-700">Q2: 生活型態？</h3>
+                 <div className="flex justify-between text-sm mt-2">
+                    <span className="text-blue-600 font-semibold text-left">自主性高<br/>想工作<br/>⬇<br/><span className="text-xl">PD</span></span>
+                    <span className="text-gray-500 font-semibold text-right">依賴性高<br/>無照護力<br/>⬇<br/><span className="text-xl">HD</span></span>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div className="bg-yellow-100 px-6 py-3 rounded-full text-yellow-800 font-bold text-lg shadow">
+           核心理念：適合病人的，就是最好的。
+        </div>
+      </div>
+    ),
+    note: "這張圖請印在腦海裡。這就是腎臟科醫師的決策邏輯。"
+  }
+];
+
+// Helper Components
+const TimelineItem = ({ year, author, event, side, highlight }: any) => (
+  <div className={`flex items-center w-full ${side === 'right' ? 'flex-row-reverse' : ''}`}>
+    <div className={`w-5/12 ${side === 'right' ? 'text-left pl-8' : 'text-right pr-8'}`}>
+      <h3 className={`text-2xl font-bold ${highlight ? 'text-green-600' : 'text-gray-700'}`}>{year}</h3>
+      <p className="font-semibold">{author}</p>
+      <p className="text-gray-500 text-sm">{event}</p>
+    </div>
+    <div className={`w-8 h-8 rounded-full border-4 z-10 ${highlight ? 'bg-green-600 border-green-200' : 'bg-gray-400 border-gray-200'}`}></div>
+    <div className="w-5/12"></div>
+  </div>
+);
+
+const Card = ({ title, subtitle, children, color, border, highlight }: any) => (
+  <div className={`${color} border-t-4 ${border} p-4 rounded shadow-md flex flex-col h-full ${highlight ? 'transform scale-105 shadow-xl' : ''}`}>
+    <h3 className="text-xl font-bold mb-1">{title}</h3>
+    <p className="text-sm text-gray-600 mb-3 italic">{subtitle}</p>
+    <div className="flex-grow">{children}</div>
+  </div>
+);
+
+// Icons
+const SettingsIcon = (props: any) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.09a2 2 0 0 1-1-1.74v-.47a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+const BrainIcon = (props: any) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+
+
+export default function PresentationViewer() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [showNote, setShowNote] = useState(true);
+
+  const nextSlide = () => {
+    if (currentSlide < slides.length - 1) setCurrentSlide(curr => curr + 1);
+  };
+
+  const prevSlide = () => {
+    if (currentSlide > 0) setCurrentSlide(curr => curr - 1);
+  };
+
+  const progress = ((currentSlide + 1) / slides.length) * 100;
+
+  return (
+    <div className="flex flex-col h-screen bg-gray-200 font-sans text-gray-900">
+      {/* Header/Toolbar */}
+      <div className="bg-green-900 text-white p-4 shadow-md flex justify-between items-center">
+        <div className="flex items-center space-x-2">
+           <Activity className="text-yellow-400" />
+           <span className="font-bold text-lg hidden md:block">安南醫院 | RRT Core Curriculum</span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <span className="text-sm text-gray-300">Slide {currentSlide + 1} / {slides.length}</span>
+          <button 
+             onClick={() => setShowNote(!showNote)}
+             className={`px-3 py-1 rounded text-xs border ${showNote ? 'bg-yellow-600 border-yellow-600' : 'border-gray-400 text-gray-300'}`}
+          >
+            {showNote ? 'Hide Notes' : 'Show Notes'}
+          </button>
+        </div>
+      </div>
+
+      {/* Main Slide Area */}
+      <div className="flex-grow p-4 md:p-8 flex justify-center items-center overflow-hidden">
+        <div className="w-full max-w-5xl aspect-video bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden relative">
+           
+           {/* Slide Header */}
+           <div className="h-16 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 flex items-center px-8">
+              <h2 className="text-2xl font-bold text-green-900 truncate">{slides[currentSlide].title}</h2>
+           </div>
+
+           {/* Slide Content */}
+           <div className="flex-grow p-8 overflow-y-auto">
+              {slides[currentSlide].content}
+           </div>
+
+           {/* Progress Bar */}
+           <div className="h-2 bg-gray-200 w-full absolute bottom-0">
+              <div 
+                className="h-full bg-green-600 transition-all duration-300 ease-out"
+                style={{ width: `${progress}%` }}
+              ></div>
+           </div>
+        </div>
+      </div>
+
+      {/* Speaker Notes Area */}
+      {showNote && (
+         <div className="bg-yellow-50 border-t border-yellow-200 p-4 text-center text-gray-700 h-24 overflow-y-auto transition-all">
+            <span className="font-bold text-yellow-800 text-xs uppercase tracking-wide">Speaker Note:</span>
+            <p className="mt-1">{slides[currentSlide].note}</p>
+         </div>
+      )}
+
+      {/* Navigation Controls */}
+      <div className="bg-white p-4 flex justify-between items-center shadow-inner">
+        <button 
+          onClick={prevSlide} 
+          disabled={currentSlide === 0}
+          className={`flex items-center px-4 py-2 rounded-lg font-bold transition-colors ${currentSlide === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-green-800 hover:bg-green-100'}`}
+        >
+          <ChevronLeft className="mr-2" /> Previous
+        </button>
+
+        <div className="flex space-x-1">
+           {slides.map((_, idx) => (
+             <button 
+               key={idx}
+               onClick={() => setCurrentSlide(idx)}
+               className={`w-2 h-2 rounded-full transition-all ${idx === currentSlide ? 'bg-green-600 w-4' : 'bg-gray-300 hover:bg-green-300'}`}
+             />
+           ))}
+        </div>
+
+        <button 
+          onClick={nextSlide} 
+          disabled={currentSlide === slides.length - 1}
+          className={`flex items-center px-4 py-2 rounded-lg font-bold transition-colors ${currentSlide === slides.length - 1 ? 'text-gray-300 cursor-not-allowed' : 'text-green-800 hover:bg-green-100'}`}
+        >
+          Next <ChevronRight className="ml-2" />
+        </button>
+      </div>
+    </div>
+  );
+}
