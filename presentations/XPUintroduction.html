@@ -1,286 +1,486 @@
 <!DOCTYPE html>
-<html lang="zh-Hant-TW">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPU vs GPU vs TPU：AI 時代的算力大戰</title>
+    <title>CPU vs GPU vs TPU：AI 時代的算力大戰 | CQI365</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cqi: {
+                            base: '#0f172a',    // Slate 900
+                            primary: '#0f766e', // Teal 700
+                            secondary: '#155e75', // Cyan 800
+                            accent: '#059669',  // Emerald 600
+                            light: '#f8fafc',   // Slate 50
+                            muted: '#475569',   // Slate 600
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #f0f4f8;
-            color: #1f2937;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
-        .chip-pattern {
-            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 20px 20px;
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
         }
-        .gradient-text {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Animation Classes */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Overlay */
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
+        }
+
+        /* Sidebar Active State */
+        .nav-link.active {
+            background-color: #f0fdfa; /* Teal 50 */
+            color: #0f766e; /* Teal 700 */
+            border-right: 4px solid #0f766e;
+            font-weight: 700;
         }
     </style>
 </head>
-<body class="chip-pattern min-h-screen">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-    <!-- Hero Section -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-microchip text-blue-600 text-2xl"></i>
-                <span class="font-bold text-xl tracking-tight">TechGuide <span class="text-gray-400">|</span> 硬體科普</span>
+    <header class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur shadow-sm border-b border-slate-200 h-16 transition-all duration-300">
+        <div class="container mx-auto px-4 h-full flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-cqi-primary rounded flex items-center justify-center text-white">
+                    <i class="fa-solid fa-hospital-user"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold text-cqi-primary tracking-tight block leading-none">CQI365</span>
+                    <span class="text-[10px] text-cqi-muted uppercase tracking-widest hidden sm:block">continuous quality improvement 365 days</span>
+                </div>
             </div>
-            <a href="#comparison" class="text-sm font-medium text-gray-500 hover:text-blue-600">跳至比較表</a>
+            <a href="https://r78101029.github.io/cqi365_pages/" class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-cqi-primary transition-colors px-4 py-2 rounded-lg hover:bg-slate-50">
+                <i class="fa-solid fa-house"></i>
+                <span>回目錄</span>
+            </a>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-8 space-y-12">
-
-        <!-- Intro -->
-        <section class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
-                搞懂電腦的「大腦」：<br>
-                <span class="gradient-text">CPU、GPU 與 TPU 的終極差異</span>
-            </h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                為什麼打電動要看顯卡？為什麼 AI 都要搶購 NVIDIA？
-                本文將用最直觀的圖解，帶你從技術原理到商業應用，一次搞懂這三大運算單元。
-            </p>
-        </section>
-
-        <!-- The Visual Metaphor Section -->
-        <section class="bg-white rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 border-l-4 border-blue-500 pl-4">一圖秒懂：核心邏輯差異</h2>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- CPU Analogy -->
-                <div class="bg-blue-50 rounded-xl p-6 text-center card-hover transition-all duration-300">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">👨‍🏫</div>
-                    <h3 class="text-xl font-bold text-blue-800 mb-2">CPU</h3>
-                    <p class="font-bold text-gray-700 mb-2">老教授 (The Professor)</p>
-                    <div class="text-sm text-gray-600 text-left bg-white p-3 rounded-lg border border-blue-100">
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li>極度聰明，能解微積分</li>
-                            <li>一次專注處理一件事</li>
-                            <li>擅長複雜邏輯判斷</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- GPU Analogy -->
-                <div class="bg-green-50 rounded-xl p-6 text-center card-hover transition-all duration-300">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">🧑‍🎓</div>
-                    <h3 class="text-xl font-bold text-green-800 mb-2">GPU</h3>
-                    <p class="font-bold text-gray-700 mb-2">小學生軍團 (The Army)</p>
-                    <div class="text-sm text-gray-600 text-left bg-white p-3 rounded-lg border border-green-100">
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li>人多勢眾 (數千核心)</li>
-                            <li>每人只會簡單算術</li>
-                            <li>同時動手，效率極高</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- TPU Analogy -->
-                <div class="bg-purple-50 rounded-xl p-6 text-center card-hover transition-all duration-300">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">🤖</div>
-                    <h3 class="text-xl font-bold text-purple-800 mb-2">TPU</h3>
-                    <p class="font-bold text-gray-700 mb-2">專用機器 (ASIC)</p>
-                    <div class="text-sm text-gray-600 text-left bg-white p-3 rounded-lg border border-purple-100">
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li>不做別的，只算矩陣</li>
-                            <li>犧牲通用性換速度</li>
-                            <li>為 AI 而生的特殊電路</li>
-                        </ul>
+    <div class="flex pt-16 min-h-screen">
+        
+        <aside class="w-64 fixed h-[calc(100vh-4rem)] overflow-y-auto hidden lg:flex flex-col border-r border-slate-200 bg-white z-40">
+            <div class="p-6">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Content Navigation</h2>
+                <nav class="space-y-1">
+                    <a href="#hero" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-cqi-primary rounded-l-lg transition-all duration-200 border-r-4 border-transparent">
+                        <i class="fa-solid fa-microchip w-5 opacity-70"></i> 導讀
+                    </a>
+                    <a href="#metaphors" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-cqi-primary rounded-l-lg transition-all duration-200 border-r-4 border-transparent">
+                        <i class="fa-solid fa-layer-group w-5 opacity-70"></i> 核心邏輯差異
+                    </a>
+                    <a href="#details" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-cqi-primary rounded-l-lg transition-all duration-200 border-r-4 border-transparent">
+                        <i class="fa-solid fa-magnifying-glass w-5 opacity-70"></i> 詳細規格解析
+                    </a>
+                    <a href="#comparison" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-cqi-primary rounded-l-lg transition-all duration-200 border-r-4 border-transparent">
+                        <i class="fa-solid fa-table-list w-5 opacity-70"></i> 技術規格總表
+                    </a>
+                    <a href="#business" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-cqi-primary rounded-l-lg transition-all duration-200 border-r-4 border-transparent">
+                        <i class="fa-solid fa-briefcase w-5 opacity-70"></i> 商業戰場與 NPU
+                    </a>
+                </nav>
+            </div>
+            <div class="mt-auto p-6 border-t border-slate-100">
+                <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                    <p class="text-xs text-slate-500 font-medium mb-1">Generated by</p>
+                    <div class="flex items-center gap-2 text-cqi-primary font-bold">
+                        <i class="fa-solid fa-robot"></i> Gemini AI
                     </div>
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <!-- Detailed Breakdown -->
-        <div class="space-y-8">
+        <main class="flex-1 lg:ml-64 w-full">
             
-            <!-- CPU Block -->
-            <section class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden shadow-md">
-                <div class="md:w-1/3 bg-blue-600 p-8 text-white flex flex-col justify-center items-center">
-                    <i class="fas fa-microchip text-6xl mb-4"></i>
-                    <h3 class="text-3xl font-bold">CPU</h3>
-                    <p class="opacity-80">Central Processing Unit</p>
-                </div>
-                <div class="md:w-2/3 p-8">
-                    <h4 class="text-xl font-bold mb-3 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">通用型</span>
-                        技術核心：低延遲 (Low Latency)
-                    </h4>
-                    <p class="text-gray-600 mb-4 leading-relaxed">
-                        CPU 的設計目標是讓「單個任務」盡快完成。它擁有巨大的快取記憶體 (Cache) 和複雜的控制單元 (Control Unit)，能預測接下來要執行的指令（分支預測）。
-                    </p>
-                    <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-600 mb-4">
-                        <p class="text-sm font-semibold text-gray-700">📌 實際應用情境</p>
-                        <p class="text-sm text-gray-600 mt-1">開啟 Windows、執行 Excel 巨集、瀏覽器解析複雜網頁、資料庫查詢。</p>
+            <section id="hero" class="relative h-[400px] flex items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: url('https://cqi365.net/wp-content/uploads/2024/06/Twitter_Header_Image.png');">
+                <div class="absolute inset-0 hero-overlay"></div>
+                <div class="relative z-10 text-center px-4 max-w-4xl mx-auto text-white reveal-on-scroll">
+                    <div class="inline-block px-3 py-1 mb-4 border border-teal-400 rounded-full bg-teal-900/50 backdrop-blur-sm text-teal-300 text-sm font-mono">
+                        TechGuide | 硬體科普
                     </div>
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                        <i class="fas fa-tag"></i> <span>代表廠商：Intel (Core/Xeon), AMD (Ryzen/EPYC)</span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
+                        搞懂電腦的「大腦」<br>
+                        <span class="text-teal-400">CPU、GPU 與 TPU 的終極差異</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed">
+                        為什麼打電動要看顯卡？為什麼 AI 都要搶購 NVIDIA？<br>
+                        本文將用最直觀的圖解，帶你從技術原理到商業應用，一次搞懂這三大運算單元。
+                    </p>
+                    <div class="mt-8">
+                        <a href="#metaphors" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-teal-900 bg-teal-100 hover:bg-white transition-colors duration-200 shadow-lg">
+                            開始閱讀 <i class="fa-solid fa-arrow-down ml-2"></i>
+                        </a>
                     </div>
                 </div>
             </section>
 
-            <!-- GPU Block -->
-            <section class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden shadow-md">
-                <div class="md:w-1/3 bg-green-600 p-8 text-white flex flex-col justify-center items-center">
-                    <i class="fas fa-layer-group text-6xl mb-4"></i>
-                    <h3 class="text-3xl font-bold">GPU</h3>
-                    <p class="opacity-80">Graphics Processing Unit</p>
-                </div>
-                <div class="md:w-2/3 p-8">
-                    <h4 class="text-xl font-bold mb-3 flex items-center gap-2">
-                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">平行運算</span>
-                        技術核心：高吞吐量 (High Throughput)
-                    </h4>
-                    <p class="text-gray-600 mb-4 leading-relaxed">
-                        GPU 犧牲了複雜的控制功能，換來成千上萬個微小核心。適合處理「彼此不相關」的資料，例如螢幕上 200 萬個像素點的顏色計算，或者 AI 訓練中龐大的矩陣數據。
-                    </p>
-                    <!-- Visualization of Parallel Processing -->
-                    <div class="mb-4">
-                         <div class="flex gap-1 mb-1">
-                             <div class="h-2 w-full bg-green-200 rounded animate-pulse"></div>
-                             <div class="h-2 w-full bg-green-300 rounded animate-pulse delay-75"></div>
-                             <div class="h-2 w-full bg-green-400 rounded animate-pulse delay-150"></div>
-                         </div>
-                         <p class="text-xs text-center text-gray-400">示意：多通道同時處理數據</p>
+            <div class="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-24">
+
+                <section id="metaphors" class="reveal-on-scroll scroll-mt-24">
+                    <div class="border-l-4 border-cqi-primary pl-4 mb-8">
+                        <span class="text-cqi-primary font-bold text-sm uppercase tracking-wider">Visual Guide</span>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1">一圖秒懂：核心邏輯差異</h2>
                     </div>
 
-                    <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-green-600 mb-4">
-                        <p class="text-sm font-semibold text-gray-700">📌 實際應用情境</p>
-                        <p class="text-sm text-gray-600 mt-1">3D 遊戲渲染、4K 影片剪輯、訓練 ChatGPT (LLM)、加密貨幣挖礦。</p>
-                    </div>
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                        <i class="fas fa-tag"></i> <span>代表廠商：NVIDIA (GeForce/H100), AMD (Radeon)</span>
-                    </div>
-                </div>
-            </section>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow hover:border-cqi-primary group">
+                            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl group-hover:bg-slate-200 transition-colors">
+                                👨‍🏫
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 text-center mb-1">CPU</h3>
+                            <p class="text-sm font-bold text-cqi-muted text-center mb-4">老教授 (The Professor)</p>
+                            <div class="bg-slate-50 p-4 rounded-lg text-sm text-slate-600 border border-slate-100">
+                                <ul class="space-y-2">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-primary mt-1 text-xs"></i> <span>極度聰明，能解微積分</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-primary mt-1 text-xs"></i> <span>一次專注處理一件事</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-primary mt-1 text-xs"></i> <span>擅長複雜邏輯判斷</span></li>
+                                </ul>
+                            </div>
+                        </div>
 
-            <!-- TPU Block -->
-            <section class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden shadow-md">
-                <div class="md:w-1/3 bg-purple-600 p-8 text-white flex flex-col justify-center items-center">
-                    <i class="fas fa-brain text-6xl mb-4"></i>
-                    <h3 class="text-3xl font-bold">TPU</h3>
-                    <p class="opacity-80">Tensor Processing Unit</p>
-                </div>
-                <div class="md:w-2/3 p-8">
-                    <h4 class="text-xl font-bold mb-3 flex items-center gap-2">
-                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">專用型 (ASIC)</span>
-                        技術核心：張量脈動陣列 (Systolic Array)
-                    </h4>
-                    <p class="text-gray-600 mb-4 leading-relaxed">
-                        TPU 是 Google 專為機器學習打造的。它移除了圖形處理功能，專注於「張量（多維數據）」的乘法運算。它允許較低的精確度（例如 bfloat16）來換取極致的速度與省電。
-                    </p>
-                    <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-purple-600 mb-4">
-                        <p class="text-sm font-semibold text-gray-700">📌 實際應用情境</p>
-                        <p class="text-sm text-gray-600 mt-1">AlphaGo 圍棋運算、Google 翻譯、Google 搜尋排名演算法、Gemini 模型推論。</p>
-                    </div>
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                        <i class="fas fa-tag"></i> <span>代表廠商：Google (Cloud TPU)</span>
-                    </div>
-                </div>
-            </section>
-        </div>
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow hover:border-cqi-accent group">
+                            <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl group-hover:bg-emerald-100 transition-colors">
+                                🧑‍🎓
+                            </div>
+                            <h3 class="text-xl font-bold text-cqi-accent text-center mb-1">GPU</h3>
+                            <p class="text-sm font-bold text-cqi-muted text-center mb-4">小學生軍團 (The Army)</p>
+                            <div class="bg-slate-50 p-4 rounded-lg text-sm text-slate-600 border border-slate-100">
+                                <ul class="space-y-2">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-accent mt-1 text-xs"></i> <span>人多勢眾 (數千核心)</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-accent mt-1 text-xs"></i> <span>每人只會簡單算術</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-accent mt-1 text-xs"></i> <span>同時動手，效率極高</span></li>
+                                </ul>
+                            </div>
+                        </div>
 
-        <!-- Technical Comparison Table -->
-        <section id="comparison" class="bg-white rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 text-center">技術規格總表</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-100 text-gray-600 text-sm uppercase tracking-wider">
-                            <th class="p-4 border-b-2">特性</th>
-                            <th class="p-4 border-b-2 text-blue-600">CPU</th>
-                            <th class="p-4 border-b-2 text-green-600">GPU</th>
-                            <th class="p-4 border-b-2 text-purple-600">TPU</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm md:text-base divide-y divide-gray-100">
-                        <tr>
-                            <td class="p-4 font-semibold text-gray-700">核心架構</td>
-                            <td class="p-4">少數強大核心 (4-64個)</td>
-                            <td class="p-4">大量小型核心 (數千個)</td>
-                            <td class="p-4">矩陣運算單元陣列</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-semibold text-gray-700">處理模式</td>
-                            <td class="p-4">序列處理 (Serial)</td>
-                            <td class="p-4">平行處理 (Parallel)</td>
-                            <td class="p-4">張量/矩陣專用</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-semibold text-gray-700">靈活度</td>
-                            <td class="p-4"><span class="text-yellow-500">⭐⭐⭐⭐⭐</span> (極高)</td>
-                            <td class="p-4"><span class="text-yellow-500">⭐⭐⭐</span> (中等)</td>
-                            <td class="p-4"><span class="text-yellow-500">⭐</span> (專一)</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-semibold text-gray-700">擅長運算</td>
-                            <td class="p-4">複雜邏輯、分支判斷</td>
-                            <td class="p-4">浮點運算、圖形幾何</td>
-                            <td class="p-4">矩陣乘法與卷積</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-semibold text-gray-700">能源效率 (AI任務)</td>
-                            <td class="p-4 text-red-500">低</td>
-                            <td class="p-4 text-yellow-600">中</td>
-                            <td class="p-4 text-green-600">極高</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Real World & Business Context -->
-        <section class="grid md:grid-cols-2 gap-8">
-            <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-2xl p-8 shadow-lg">
-                <h3 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2">商業戰場現況</h3>
-                <div class="space-y-4">
-                    <div class="flex items-start gap-3">
-                        <div class="mt-1 text-green-400"><i class="fas fa-chart-line"></i></div>
-                        <div>
-                            <strong class="text-green-400">NVIDIA (GPU 霸主)</strong>
-                            <p class="text-sm text-gray-300 mt-1">因為 CUDA 生態系完善，所有開發者都能輕易上手，成為目前 AI 訓練的首選硬體 (如 H100 晶片)。</p>
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow hover:border-cqi-secondary group">
+                            <div class="w-16 h-16 bg-cyan-50 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl group-hover:bg-cyan-100 transition-colors">
+                                🤖
+                            </div>
+                            <h3 class="text-xl font-bold text-cqi-secondary text-center mb-1">TPU</h3>
+                            <p class="text-sm font-bold text-cqi-muted text-center mb-4">專用機器 (ASIC)</p>
+                            <div class="bg-slate-50 p-4 rounded-lg text-sm text-slate-600 border border-slate-100">
+                                <ul class="space-y-2">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-secondary mt-1 text-xs"></i> <span>不做別的，只算矩陣</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-secondary mt-1 text-xs"></i> <span>犧牲通用性換速度</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cqi-secondary mt-1 text-xs"></i> <span>為 AI 而生的特殊電路</span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex items-start gap-3">
-                        <div class="mt-1 text-purple-400"><i class="fas fa-server"></i></div>
-                        <div>
-                            <strong class="text-purple-400">Google (TPU 垂直整合)</strong>
-                            <p class="text-sm text-gray-300 mt-1">Google 不賣晶片，只賣雲端服務。透過自研 TPU，Google 能以更低的電力成本訓練自家模型 (Gemini)。</p>
+                </section>
+
+                <section id="details" class="reveal-on-scroll scroll-mt-24">
+                    <div class="border-l-4 border-cqi-primary pl-4 mb-8">
+                        <span class="text-cqi-primary font-bold text-sm uppercase tracking-wider">Deep Dive</span>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1">詳細規格解析</h2>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 flex flex-col md:flex-row">
+                            <div class="md:w-1/3 bg-slate-800 p-8 text-white flex flex-col justify-center items-center">
+                                <i class="fa-solid fa-microchip text-5xl mb-4 text-slate-300"></i>
+                                <h3 class="text-3xl font-bold">CPU</h3>
+                                <p class="opacity-70 text-sm font-mono mt-1">Central Processing Unit</p>
+                            </div>
+                            <div class="md:w-2/3 p-8">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-1 rounded border border-slate-200">通用型</span>
+                                    <h4 class="text-xl font-bold text-slate-800">技術核心：低延遲 (Low Latency)</h4>
+                                </div>
+                                <p class="text-slate-600 mb-6 leading-relaxed">
+                                    CPU 的設計目標是讓「單個任務」盡快完成。它擁有巨大的快取記憶體 (Cache) 和複雜的控制單元 (Control Unit)，能預測接下來要執行的指令（分支預測）。
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-slate-600 mb-4">
+                                    <p class="text-xs font-bold text-slate-500 uppercase mb-1">📌 實際應用情境</p>
+                                    <p class="text-sm text-slate-700">開啟 Windows、執行 Excel 巨集、瀏覽器解析複雜網頁、資料庫查詢。</p>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-400">
+                                    <i class="fa-solid fa-tag"></i> <span>代表廠商：Intel (Core/Xeon), AMD (Ryzen/EPYC)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 flex flex-col md:flex-row">
+                            <div class="md:w-1/3 bg-cqi-accent p-8 text-white flex flex-col justify-center items-center">
+                                <i class="fa-solid fa-layer-group text-5xl mb-4 text-emerald-100"></i>
+                                <h3 class="text-3xl font-bold">GPU</h3>
+                                <p class="opacity-70 text-sm font-mono mt-1">Graphics Processing Unit</p>
+                            </div>
+                            <div class="md:w-2/3 p-8">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="bg-emerald-50 text-cqi-accent text-xs font-bold px-2 py-1 rounded border border-emerald-100">平行運算</span>
+                                    <h4 class="text-xl font-bold text-slate-800">技術核心：高吞吐量 (High Throughput)</h4>
+                                </div>
+                                <p class="text-slate-600 mb-4 leading-relaxed">
+                                    GPU 犧牲了複雜的控制功能，換來成千上萬個微小核心。適合處理「彼此不相關」的資料，例如螢幕上 200 萬個像素點的顏色計算，或者 AI 訓練中龐大的矩陣數據。
+                                </p>
+                                
+                                <div class="mb-5 bg-emerald-50/50 p-3 rounded border border-emerald-100">
+                                    <div class="flex gap-1 mb-1">
+                                         <div class="h-1.5 w-full bg-emerald-200 rounded animate-pulse"></div>
+                                         <div class="h-1.5 w-full bg-emerald-300 rounded animate-pulse delay-75"></div>
+                                         <div class="h-1.5 w-full bg-emerald-400 rounded animate-pulse delay-150"></div>
+                                    </div>
+                                    <p class="text-[10px] text-center text-emerald-600/70 font-mono">示意：多通道同時處理數據</p>
+                                </div>
+
+                                <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-cqi-accent mb-4">
+                                    <p class="text-xs font-bold text-cqi-accent uppercase mb-1">📌 實際應用情境</p>
+                                    <p class="text-sm text-slate-700">3D 遊戲渲染、4K 影片剪輯、訓練 ChatGPT (LLM)、加密貨幣挖礦。</p>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-400">
+                                    <i class="fa-solid fa-tag"></i> <span>代表廠商：NVIDIA (GeForce/H100), AMD (Radeon)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 flex flex-col md:flex-row">
+                            <div class="md:w-1/3 bg-cqi-secondary p-8 text-white flex flex-col justify-center items-center">
+                                <i class="fa-solid fa-brain text-5xl mb-4 text-cyan-200"></i>
+                                <h3 class="text-3xl font-bold">TPU</h3>
+                                <p class="opacity-70 text-sm font-mono mt-1">Tensor Processing Unit</p>
+                            </div>
+                            <div class="md:w-2/3 p-8">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="bg-cyan-50 text-cqi-secondary text-xs font-bold px-2 py-1 rounded border border-cyan-100">專用型 (ASIC)</span>
+                                    <h4 class="text-xl font-bold text-slate-800">技術核心：張量脈動陣列</h4>
+                                </div>
+                                <p class="text-slate-600 mb-6 leading-relaxed">
+                                    TPU 是 Google 專為機器學習打造的。它移除了圖形處理功能，專注於「張量（多維數據）」的乘法運算。它允許較低的精確度（例如 bfloat16）來換取極致的速度與省電。
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-cqi-secondary mb-4">
+                                    <p class="text-xs font-bold text-cqi-secondary uppercase mb-1">📌 實際應用情境</p>
+                                    <p class="text-sm text-slate-700">AlphaGo 圍棋運算、Google 翻譯、Google 搜尋排名演算法、Gemini 模型推論。</p>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-400">
+                                    <i class="fa-solid fa-tag"></i> <span>代表廠商：Google (Cloud TPU)</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
+
+                <section id="comparison" class="reveal-on-scroll scroll-mt-24">
+                     <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">技術規格總表</h2>
+                        <i class="fa-solid fa-list-check text-2xl text-slate-300"></i>
+                    </div>
+
+                    <div class="overflow-hidden border border-slate-200 rounded-xl shadow-sm bg-white">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-teal-50 text-slate-700">
+                                <tr>
+                                    <th class="py-4 px-6 text-left font-bold border-b border-teal-100 w-1/4">特性</th>
+                                    <th class="py-4 px-6 text-left font-bold border-b border-teal-100 text-slate-800">CPU</th>
+                                    <th class="py-4 px-6 text-left font-bold border-b border-teal-100 text-cqi-accent">GPU</th>
+                                    <th class="py-4 px-6 text-left font-bold border-b border-teal-100 text-cqi-secondary">TPU</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-4 px-6 font-medium text-slate-700">核心架構</td>
+                                    <td class="py-4 px-6 text-slate-600">少數強大核心 (4-64個)</td>
+                                    <td class="py-4 px-6 text-slate-600">大量小型核心 (數千個)</td>
+                                    <td class="py-4 px-6 text-slate-600">矩陣運算單元陣列</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-4 px-6 font-medium text-slate-700">處理模式</td>
+                                    <td class="py-4 px-6 text-slate-600">序列處理 (Serial)</td>
+                                    <td class="py-4 px-6 text-slate-600">平行處理 (Parallel)</td>
+                                    <td class="py-4 px-6 text-slate-600">張量/矩陣專用</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-4 px-6 font-medium text-slate-700">靈活度</td>
+                                    <td class="py-4 px-6 text-slate-600"><span class="text-amber-500">⭐⭐⭐⭐⭐</span> (極高)</td>
+                                    <td class="py-4 px-6 text-slate-600"><span class="text-amber-500">⭐⭐⭐</span> (中等)</td>
+                                    <td class="py-4 px-6 text-slate-600"><span class="text-amber-500">⭐</span> (專一)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-4 px-6 font-medium text-slate-700">擅長運算</td>
+                                    <td class="py-4 px-6 text-slate-600">複雜邏輯、分支判斷</td>
+                                    <td class="py-4 px-6 text-slate-600">浮點運算、圖形幾何</td>
+                                    <td class="py-4 px-6 text-slate-600">矩陣乘法與卷積</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-4 px-6 font-medium text-slate-700">能源效率 (AI任務)</td>
+                                    <td class="py-4 px-6 text-red-500 font-medium">低</td>
+                                    <td class="py-4 px-6 text-amber-600 font-medium">中</td>
+                                    <td class="py-4 px-6 text-emerald-600 font-bold">極高</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="business" class="reveal-on-scroll scroll-mt-24 mb-12">
+                     <div class="border-l-4 border-cqi-primary pl-4 mb-8">
+                        <span class="text-cqi-primary font-bold text-sm uppercase tracking-wider">Market Analysis</span>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1">商業戰場與 NPU</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-slate-800 text-white rounded-xl p-8 shadow-lg">
+                            <h3 class="text-xl font-bold mb-6 border-b border-slate-600 pb-4">商業戰場現況</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start gap-4">
+                                    <div class="mt-1 text-cqi-accent bg-emerald-900/50 p-2 rounded"><i class="fa-solid fa-chart-line"></i></div>
+                                    <div>
+                                        <strong class="text-emerald-400 block mb-1">NVIDIA (GPU 霸主)</strong>
+                                        <p class="text-sm text-slate-300 leading-relaxed">因為 CUDA 生態系完善，所有開發者都能輕易上手，成為目前 AI 訓練的首選硬體 (如 H100 晶片)。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="mt-1 text-cyan-400 bg-cyan-900/50 p-2 rounded"><i class="fa-solid fa-server"></i></div>
+                                    <div>
+                                        <strong class="text-cyan-400 block mb-1">Google (TPU 垂直整合)</strong>
+                                        <p class="text-sm text-slate-300 leading-relaxed">Google 不賣晶片，只賣雲端服務。透過自研 TPU，Google 能以更低的電力成本訓練自家模型 (Gemini)。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl p-8 shadow-sm border border-slate-200 flex flex-col justify-center">
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-user-tag text-slate-400"></i> 給消費者的建議
+                            </h3>
+                            <p class="text-slate-600 mb-6">你不需要購買 TPU，但你可能會經常聽到 <strong>NPU (Neural Processing Unit)</strong>。</p>
+                            
+                            <div class="bg-amber-50 p-5 rounded-lg border border-amber-100">
+                                <h4 class="font-bold text-amber-800 text-sm mb-2 flex items-center gap-2">
+                                    <i class="fa-regular fa-lightbulb"></i> 什麼是 NPU？
+                                </h4>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    它是手機或筆電裡的「迷你版 TPU」。專門用來處理臉部解鎖、視訊背景模糊、以及離線 AI 助理功能。未來的 AI PC 將會標配 NPU。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
 
-            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-                <h3 class="text-xl font-bold mb-4 text-gray-800">給消費者的建議</h3>
-                <p class="text-gray-600 mb-4">你不需要購買 TPU，但你可能會經常聽到 <strong>NPU (Neural Processing Unit)</strong>。</p>
-                <div class="bg-orange-50 p-4 rounded-lg">
-                    <h4 class="font-bold text-orange-800 text-sm mb-2">什麼是 NPU？</h4>
-                    <p class="text-sm text-gray-700">
-                        它是手機或筆電裡的「迷你版 TPU」。專門用來處理臉部解鎖、視訊背景模糊、以及離線 AI 助理功能。未來的 AI PC 將會標配 NPU。
-                    </p>
+            <footer class="bg-white border-t border-slate-200 mt-auto">
+                <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center gap-2">
+                             <div class="w-6 h-6 bg-cqi-primary rounded flex items-center justify-center text-white text-xs">
+                                <i class="fa-solid fa-hospital-user"></i>
+                            </div>
+                            <span class="font-bold text-cqi-primary">CQI365</span>
+                        </div>
+                        <p class="text-center text-sm text-slate-400">
+                            &copy; 2025 TechGuide. Designed for <a href="http://Cqi365.net" class="hover:text-cqi-primary underline decoration-dotted">Cqi365.net</a>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </footer>
+        </main>
+    </div>
 
-        <!-- Footer -->
-        <footer class="text-center text-gray-400 text-sm py-8 border-t border-gray-200 mt-8">
-            <p>Generated by Gemini AI • 專為資訊入門者設計</p>
-        </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Fade-in-up Animation (Intersection Observer)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
 
-    </main>
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+                observer.observe(el);
+            });
+
+            // 2. Scrollspy for Sidebar Navigation
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Offset for fixed header
+                    if (window.scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // 3. Smooth Scroll correction for fixed header
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if(targetElement){
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
