@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>CQI365 教學互動資源索引</title>
+  <title>cqi365 投影片索引</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
@@ -27,22 +27,22 @@
     }
 
     .wrapper {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
     }
 
     header {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin: 0 0 8px;
+      font-size: 1.7rem;
+      margin: 0 0 6px;
     }
 
     .subtitle {
       color: var(--text-sub);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .subtitle code {
@@ -55,19 +55,23 @@
     .card {
       background: var(--bg-card);
       border-radius: 14px;
-      padding: 18px 20px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      padding: 18px 18px 16px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
       border: 1px solid var(--border);
     }
 
-    ul#file-list {
+    /* 兩欄/單欄自適應布局 */
+    #file-list {
       list-style: none;
       margin: 0;
       padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px 16px;
     }
 
-    ul#file-list li {
-      margin: 6px 0;
+    #file-list li {
+      margin: 0;
     }
 
     .link-item {
@@ -78,7 +82,9 @@
       border-radius: 10px;
       text-decoration: none;
       color: var(--text-main);
-      transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
+      transition: background 0.16s ease, transform 0.1s ease, box-shadow 0.1s ease;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background-color: #ffffff;
     }
 
     .link-item:hover {
@@ -89,12 +95,14 @@
 
     .link-title {
       font-weight: 600;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
+      margin-bottom: 2px;
     }
 
     .link-meta {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-sub);
+      word-break: break-all;
     }
 
     .pill {
@@ -103,27 +111,60 @@
       background: rgba(37, 99, 235, 0.08);
       color: var(--accent);
       font-size: 0.75rem;
+      white-space: nowrap;
+      margin-left: 8px;
     }
 
     .empty-text {
       color: var(--text-sub);
       font-size: 0.9rem;
-      padding: 4px 0;
+    }
+
+    /* 分頁列 */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 4px 10px;
+      cursor: pointer;
+      min-width: 32px;
+      text-align: center;
+    }
+
+    .page-btn[disabled] {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .page-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
     }
 
     @media (max-width: 600px) {
       body { padding: 20px 12px 32px; }
-      h1 { font-size: 1.5rem; }
-      .card { padding: 14px 14px; }
+      h1 { font-size: 1.4rem; }
+      .card { padding: 14px 14px 12px; }
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <header>
-      <h1>CQI365 教學互動資源索引</h1>
+      <h1>cqi365 投影片索引</h1>
       <p class="subtitle">
-        請點選連結到下面CQI365 教學互動資源進行互動。
+        自動列出 de>/presentations</code> 內的 HTML 簡報檔案，支援分頁與手機瀏覽。
       </p>
     </header>
 
@@ -131,6 +172,7 @@
       <ul id="file-list">
         <li class="empty-text">載入中…</li>
       </ul>
+      <div class="pagination" id="pagination" style="display:none;"></div>
     </section>
   </div>
 
@@ -139,72 +181,119 @@
     const repo = "cqi365_pages";
     const folder = "presentations";
 
-    // 可選：檔名對應比較好看的標題
+    // 檔名對應顯示標題，可自行擴充
     const titleMap = {
       "RRT_education_20251130.html": "RRT Education（2025-11-30）",
       "XPUintroduction.html": "XPU 介紹",
       "antigravity_project.html": "Antigravity Project"
     };
 
-    async function loadFiles() {
+    const pageSize = 6;  // 每頁顯示幾筆
+
+    let items = [];       // 全部投影片資料
+    let currentPage = 1;  // 目前頁碼
+
+    async function fetchFiles() {
+      const url = `https://api.github.com/repos/${user}/${repo}/contents/${folder}/`;
+      const res = await fetch(url, {
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28"
+        }
+      });
+      const data = await res.json();
+      if (!Array.isArray(data)) {
+        throw new Error(data.message || "API 回傳格式錯誤");
+      }
+      return data.filter(item => item.type === "file" && item.name.endsWith(".html"));
+    }
+
+    function renderPage(page) {
       const ul = document.getElementById("file-list");
-      ul.innerHTML = '<li class="empty-text">載入中…</li>';
+      const pagination = document.getElementById("pagination");
 
+      if (!items.length) {
+        ul.innerHTML = '<li class="empty-text">目前沒有任何投影片。</li>';
+        pagination.style.display = "none";
+        return;
+      }
+
+      const totalPages = Math.ceil(items.length / pageSize);
+      currentPage = Math.min(Math.max(1, page), totalPages);
+
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      const slice = items.slice(start, end);
+
+      ul.innerHTML = "";
+      slice.forEach(file => {
+        const li = document.createElement("li");
+
+        const a = document.createElement("a");
+        a.className = "link-item";
+        a.href = `./${folder}/${file.name}`;
+
+        const left = document.createElement("div");
+        const title = document.createElement("div");
+        title.className = "link-title";
+        title.textContent = titleMap[file.name] || file.name;
+
+        const meta = document.createElement("div");
+        meta.className = "link-meta";
+        meta.textContent = file.name;
+
+        left.appendChild(title);
+        left.appendChild(meta);
+
+        const right = document.createElement("div");
+        right.className = "pill";
+        right.textContent = "HTML 簡報";
+
+        a.appendChild(left);
+        a.appendChild(right);
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+
+      // 分頁列
+      pagination.style.display = totalPages > 1 ? "flex" : "none";
+      pagination.innerHTML = "";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.textContent = "上一頁";
+      prevBtn.className = "page-btn";
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => renderPage(currentPage - 1);
+      pagination.appendChild(prevBtn);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.className = "page-btn" + (i === currentPage ? " active" : "");
+        btn.onclick = () => renderPage(i);
+        pagination.appendChild(btn);
+      }
+
+      const nextBtn = document.createElement("button");
+      nextBtn.textContent = "下一頁";
+      nextBtn.className = "page-btn";
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => renderPage(currentPage + 1);
+      pagination.appendChild(nextBtn);
+    }
+
+    async function init() {
+      const ul = document.getElementById("file-list");
       try {
-        const url = `https://api.github.com/repos/${user}/${repo}/contents/${folder}/`;
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (!Array.isArray(data)) {
-          ul.innerHTML = '<li class="empty-text">無法讀取檔案列表，請稍後再試。</li>';
-          return;
-        }
-
-        const htmlFiles = data.filter(
-          item => item.type === "file" && item.name.endsWith(".html")
-        );
-
-        ul.innerHTML = "";
-
-        htmlFiles.forEach(file => {
-          const li = document.createElement("li");
-
-          const a = document.createElement("a");
-          a.className = "link-item";
-          a.href = `./${folder}/${file.name}`;
-
-          const left = document.createElement("div");
-          const title = document.createElement("div");
-          title.className = "link-title";
-          title.textContent = titleMap[file.name] || file.name;
-
-          const meta = document.createElement("div");
-          meta.className = "link-meta";
-          meta.textContent = file.name;
-
-          left.appendChild(title);
-          left.appendChild(meta);
-
-          const right = document.createElement("div");
-          right.className = "pill";
-          right.textContent = "HTML 簡報";
-
-          a.appendChild(left);
-          a.appendChild(right);
-          li.appendChild(a);
-          ul.appendChild(li);
-        });
-
-        if (htmlFiles.length === 0) {
-          ul.innerHTML = '<li class="empty-text">目前 presentations 資料夾沒有 HTML 檔案。</li>';
-        }
+        items = await fetchFiles();
+        renderPage(1);
       } catch (e) {
         console.error(e);
-        ul.innerHTML = '<li class="empty-text">載入失敗，請稍後再試。</li>';
+        ul.innerHTML = `<li class="empty-text">載入失敗：${e.message}</li>`;
       }
     }
 
-    loadFiles();
+    init();
   </script>
 </body>
 </html>
