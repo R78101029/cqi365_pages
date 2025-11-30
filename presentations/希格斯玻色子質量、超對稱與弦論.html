@@ -3,275 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>希格斯玻色子質量、超對稱與弦論：當前挑戰與理論前沿綜述</title>
+    <title>希格斯玻色子質量、超對稱與弦論 | CQI365</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cqi: {
+                            base: '#f8fafc',    // Slate-50
+                            primary: '#0f766e', // Teal-700
+                            secondary: '#155e75', // Cyan-800
+                            accent: '#059669',  // Emerald-600
+                            text: '#334155',    // Slate-700
+                            dark: '#0f172a',    // Slate-900
+                            light: '#e0f2fe',   // Sky-100
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --bg-color: #f9f9f9;
-            --text-color: #333;
-            --border-color: #ddd;
-        }
-
         body {
-            font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", sans-serif;
-            line-height: 1.8;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
+            font-family: 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f766e;
+            border-radius: 4px;
         }
 
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 40px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            border-radius: 8px;
+        /* Utility Classes for JS interactions */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        h1 {
-            color: var(--primary-color);
-            font-size: 2.2em;
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--accent-color);
+        /* Tab Active State */
+        .tab-btn.active {
+            background-color: #0f766e;
+            color: white;
+            border-color: #0f766e;
         }
-
-        h2 {
-            color: var(--secondary-color);
-            border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
-            margin-top: 40px;
-            margin-bottom: 20px;
+        
+        /* Accordion Active State */
+        .accordion-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
         }
-
-        h3 {
-            color: var(--secondary-color);
-            font-size: 1.3em;
-            margin-top: 30px;
+        .accordion-content.open {
+            max-height: 1000px; /* Arbitrary large number */
+            opacity: 1;
         }
-
-        p {
-            margin-bottom: 1.5em;
-            text-align: justify;
+        .accordion-icon {
+            transition: transform 0.3s ease;
         }
-
-        strong {
-            color: var(--primary-color);
-        }
-
-        ul {
-            margin-bottom: 1.5em;
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        /* 表格樣式 */
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.95em;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .comparison-table thead tr {
-            background-color: var(--primary-color);
-            color: #ffffff;
-            text-align: left;
-        }
-
-        .comparison-table th, 
-        .comparison-table td {
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            vertical-align: top;
-        }
-
-        .comparison-table tbody tr {
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .comparison-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        .comparison-table tbody tr:hover {
-            background-color: #eef7fc;
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background: #eee;
-            margin: 40px 0;
-        }
-
-        /* 引用/強調區塊 */
-        .highlight-box {
-            background-color: #e8f4fc;
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            margin: 20px 0;
-            font-style: italic;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .comparison-table thead {
-                display: none;
-            }
-            
-            .comparison-table, .comparison-table tbody, .comparison-table tr, .comparison-table td {
-                display: block;
-                width: 100%;
-            }
-            
-            .comparison-table tr {
-                margin-bottom: 15px;
-                border: 1px solid #ccc;
-            }
-            
-            .comparison-table td {
-                text-align: right;
-                padding-left: 50%;
-                position: relative;
-            }
-
-            .comparison-table td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 15px;
-                width: 45%;
-                font-weight: bold;
-                text-align: left;
-                color: var(--primary-color);
-            }
+        .accordion-btn[aria-expanded="true"] .accordion-icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
-<body>
+<body class="bg-cqi-base text-cqi-text antialiased selection:bg-cqi-primary selection:text-white">
 
-<div class="container">
-    <header>
-        <h1>希格斯玻色子質量、超對稱與弦論：<br>當前挑戰與理論前沿綜述</h1>
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-9 h-9 bg-gradient-to-br from-cqi-primary to-cqi-secondary rounded-lg flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-atom"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-lg text-cqi-secondary leading-tight">CQI365</span>
+                        <span class="hidden sm:block text-[0.65rem] text-cqi-primary uppercase tracking-widest font-semibold">Continuous Quality Improvement</span>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:flex items-center space-x-6">
+                    <a href="#intro" class="nav-link text-sm font-medium text-slate-600 hover:text-cqi-primary transition-colors py-2 border-b-2 border-transparent hover:border-cqi-primary">引言</a>
+                    <a href="#higgs" class="nav-link text-sm font-medium text-slate-600 hover:text-cqi-primary transition-colors py-2 border-b-2 border-transparent hover:border-cqi-primary">希格斯機制</a>
+                    <a href="#susy" class="nav-link text-sm font-medium text-slate-600 hover:text-cqi-primary transition-colors py-2 border-b-2 border-transparent hover:border-cqi-primary">超對稱挑戰</a>
+                    <a href="#string" class="nav-link text-sm font-medium text-slate-600 hover:text-cqi-primary transition-colors py-2 border-b-2 border-transparent hover:border-cqi-primary">弦論視角</a>
+                    <a href="#conclusion" class="nav-link text-sm font-medium text-slate-600 hover:text-cqi-primary transition-colors py-2 border-b-2 border-transparent hover:border-cqi-primary">結論</a>
+                    
+                    <a href="https://r78101029.github.io/cqi365_pages/" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-cqi-primary hover:bg-cqi-secondary shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-house mr-2"></i> 回目錄
+                    </a>
+                </div>
+
+                <div class="lg:hidden flex items-center">
+                    <a href="https://r78101029.github.io/cqi365_pages/" class="p-2 text-cqi-primary">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative w-full h-[500px] flex items-center justify-center mt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://cqi365.net/wp-content/uploads/2024/06/Twitter_Header_Image.png" alt="CQI365 Header" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-slate-900/80 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-cqi-base via-transparent to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto reveal active">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-teal-900/50 border border-teal-500/30 text-teal-300 text-xs font-semibold mb-6 backdrop-blur-sm">
+                <span class="w-2 h-2 rounded-full bg-teal-400 mr-2 animate-pulse"></span>
+                Theoretical Physics Frontier
+            </div>
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight drop-shadow-lg">
+                希格斯玻色子質量、<br class="hidden md:block">超對稱與弦論
+            </h1>
+            <p class="text-lg md:text-2xl text-slate-200 font-light max-w-3xl mx-auto border-t border-slate-500/50 pt-6">
+                當前挑戰與理論前沿綜述
+            </p>
+        </div>
     </header>
 
-    <section id="intro">
-        <h2>1.0 引言：標準模型的勝利與未解之謎</h2>
-        <p>粒子物理學的標準模型（Standard Model）是人類智識的偉大成就。它以驚人的精確度描述了構成宇宙的基本粒子及其除重力外的三種基本交互作用。2012年，歐洲核子研究組織（CERN）的大型強子對撞機（LHC）發現了質量約為 125 GeV 的希格斯玻色子，為這座宏偉的理論大廈冠上了最後一塊頂石。此一發現不僅證實了標準模型數十年前的預測，也揭示了基本粒子質量的起源機制。</p>
-        <p>然而，這場勝利的喜悅很快就被其引發的深層次問題所取代。125 GeV 這個看似精確的數值，實則將標準模型理論的内在矛盾凸顯出來，其中最核心的便是所謂的「<strong>階層問題</strong>」（hierarchy problem）——為何希格斯玻色子的質量能夠穩定在觀測值，而不被巨大的量子修正效應拉升至極高的能量尺度。這一問題強烈暗示著，標準模型並非物理現實的終極描述，在更高能量尺度必然存在著超越標準模型的「新物理」。</p>
-        <p>正如物理學家所指出的，希格斯理論雖解釋了粒子質量的來源是其與遍佈宇宙的希格斯場交互作用的結果，卻未能解答一個更根本的謎題：為何不同粒子與希格斯場的交互作用強度會有如此巨大的差異？這相當於將一個問題轉化成了另一個更深層次的問題。為了解決這些挑戰，理論物理學界發展出諸多理論框架，其中最引人注目的便是<strong>超對稱</strong>（Supersymmetry, SUSY）與作為其理論根基的<strong>弦論</strong>（String Theory）。</p>
-        <p>本綜述旨在回顧當前理論物理學界圍繞希格斯玻色子質量所面臨的核心挑戰與前沿進展。我們將首先回顧賦予粒子質量的希格斯機制；接著，深入剖析 125 GeV 的質量觀測值如何對主流的超對稱模型構成嚴峻考驗；最後，我們將視野提升至弦論的宏大框架，探討其為理解這些謎題提供的可能視角與獨特觀點。</p>
-    </section>
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
 
-    <hr>
+        <section id="intro" class="reveal">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-3xl font-bold text-cqi-dark mb-6 flex items-center">
+                        <span class="text-cqi-primary mr-3 text-4xl">1.0</span> 
+                        標準模型的勝利與<br>未解之謎
+                    </h2>
+                    <div class="w-20 h-1.5 bg-gradient-to-r from-cqi-primary to-cqi-accent mb-6 rounded-full"></div>
+                    <div class="prose prose-lg text-slate-600 text-justify">
+                        <p class="mb-4">
+                            粒子物理學的標準模型（Standard Model）是人類智識的偉大成就。它以驚人的精確度描述了構成宇宙的基本粒子及其除重力外的三種基本交互作用。2012年，歐洲核子研究組織（CERN）的大型強子對撞機（LHC）發現了質量約為125 GeV的希格斯玻色子，為這座宏偉的理論大廈冠上了最後一塊頂石。此一發現不僅證實了標準模型數十年前的預測，也揭示了基本粒子質量的起源機制。
+                        </p>
+                        <p>
+                            然而，這場勝利的喜悅很快就被其引發的深層次問題所取代。125 GeV這個看似精確的數值，實則將標準模型理論的内在矛盾凸顯出來，其中最核心的便是所謂的「階層問題」（hierarchy problem）——為何希格斯玻色子的質量能夠穩定在觀測值，而不被巨大的量子修正效應拉升至極高的能量尺度。這一問題強烈暗示著，標準模型並非物理現實的終極描述，在更高能量尺度必然存在著超越標準模型的「新物理」。
+                        </p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 text-9xl text-slate-50 opacity-10">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-cqi-secondary mb-4">核心挑戰</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-question text-cqi-accent mt-1.5 mr-3"></i>
+                                <span class="text-slate-600"><strong>交互作用強度的差異：</strong>為何不同粒子與希格斯場的交互作用強度會有如此巨大的差異？這相當於將一個問題轉化成了另一個更深層次的問題。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-route text-cqi-accent mt-1.5 mr-3"></i>
+                                <span class="text-slate-600"><strong>解決方案：</strong>為了解決這些挑戰，理論物理學界發展出諸多理論框架，其中最引人注目的便是超對稱（Supersymmetry, SUSY）與作為其理論根基的弦論（String Theory）。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="higgs-mechanism">
-        <h2>2.0 希格斯機制：質量起源的標準模型詮釋</h2>
-        <p>要理解為何 125 GeV 這個質量值會對新物理理論構成嚴峻考驗，我們必須首先回顧標準模型中賦予基本粒子質量的核心理論——希格斯機制。此機制的運作原理，特別是「自發對稱性破缺」（spontaneous symmetry breaking）的精妙概念，是後續所有理論探討的基石。</p>
+        <section id="higgs" class="reveal scroll-mt-24">
+            <div class="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold text-cqi-dark mb-8 text-center">
+                    <span class="text-cqi-primary">2.0</span> 希格斯機制：質量起源
+                </h2>
+                
+                <p class="text-lg text-slate-600 mb-10 text-justify max-w-4xl mx-auto">
+                    要理解為何125 GeV這個質量值會對新物理理論構成嚴峻考驗，我們必須首先回顧標準模型中賦予基本粒子質量的核心理論——希格斯機制。此機制的運作原理，特別是「自發對稱性破缺」的精妙概念，是後續所有理論探討的基石。
+                </p>
 
-        <h3>2.1 理論背景與核心概念</h3>
-        <p>希格斯機制的思想最早於1964年由弗朗索瓦·恩格勒（François Englert）、羅伯特·布繞特（Robert Brout）、彼得·希格斯（Peter Higgs）等數個獨立的研究小組提出。其核心在於解決規範場論的一個內在矛盾：理論為了滿足「局域規範不變性」（local gauge invariance），要求傳遞弱交互作用的規範玻色子（W和Z玻色子）必須是零質量的，這與實驗觀測到的巨大質量顯然不符。</p>
-        <p>希格斯機制巧妙地繞過了這個難題，其關鍵在於自發對稱性破缺。我們可以透過一個經典的比喻來理解這個概念——<strong>墨西哥帽位能</strong>：</p>
-        <div class="highlight-box">
-            <ul>
-                <li>想像一頂墨西哥草帽，帽頂正中央有一個小球。這個系統是完全旋轉對稱的，無論你從哪個方向看，它都一樣。然而，帽頂是一個不穩定的平衡點（局部能量最大值）。</li>
-                <li>任何微小的擾動都會使小球滾落到帽簷周圍的圓形谷底。一旦小球停在谷底的某個特定位置，系統的旋轉對稱性就被打破了——雖然物理定律（帽子的形狀）本身仍是對稱的，但系統的最低能量狀態（真空態，即小球的位置）卻不再對稱。</li>
-            </ul>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-cqi-secondary">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-cqi-light flex items-center justify-center text-cqi-secondary mr-3">
+                                <i class="fa-solid fa-hat-cowboy-side"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-cqi-dark">墨西哥帽位能與對稱性破缺</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                            希格斯機制的思想最早於1964年由弗朗索瓦·恩格勒、羅伯特·布繞特、彼得·希格斯等人提出。
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-cqi-primary text-sm mb-2">比喻說明：</h4>
+                            <p class="text-slate-600 text-sm italic">
+                                「想像一頂墨西哥草帽...帽頂是一個不穩定的平衡點。任何微小的擾動都會使小球滾落到帽簷周圍的圓形谷底。一旦小球停在谷底...系統的旋轉對稱性就被打破了。」
+                            </p>
+                        </div>
+                        <p class="text-slate-600 text-sm mt-4 leading-relaxed">
+                            在標準模型中，遍佈宇宙的希格斯場就扮演著這個角色。隨著宇宙冷卻，希格斯場「滾落」到能量更低的「谷底」，獲得了一個非零的真空期望值。
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-cqi-dark mb-4 pl-2 border-l-4 border-transparent">質量的生成方式</h3>
+                        
+                        <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
+                            <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                                <span class="font-bold text-cqi-secondary flex items-center">
+                                    <i class="fa-solid fa-bolt mr-3 text-amber-500"></i>
+                                    規範玻色子的質量 (W & Z)
+                                </span>
+                                <i class="fa-solid fa-chevron-down accordion-icon text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content bg-slate-50 px-6">
+                                <div class="py-4 text-slate-600 text-sm leading-relaxed text-justify">
+                                    對於W和Z玻色子，它們的質量源於其與希格斯場非零真空期望值（VEV）的交互作用。當規範場的動能項在圍繞此非零真空期望值展開時，會自然生成二次項，這些項在拉格朗日量中數學上等同於質量項。其物理圖像可理解為規範場在遍佈於真空中的恆定希格斯背景場中傳播而獲得了有效質量。傳遞電磁力的光子不與希格斯場發生此類交互作用，因此保持零質量。
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
+                            <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                                <span class="font-bold text-cqi-secondary flex items-center">
+                                    <i class="fa-solid fa-weight-scale mr-3 text-cqi-accent"></i>
+                                    費米子的質量 (物質粒子)
+                                </span>
+                                <i class="fa-solid fa-chevron-down accordion-icon text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content bg-slate-50 px-6">
+                                <div class="py-4 text-slate-600 text-sm leading-relaxed text-justify">
+                                    對於構成物質的基本粒子，如電子和夸克（統稱費米子），它們的質量則源於與希格斯場的另一種交互作用，稱為「湯川耦合」（Yukawa coupling）。不同粒子與希格斯場的耦合強度不同，這也決定了它們質量的巨大差異。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-4 bg-cqi-light/30 rounded-lg text-xs text-slate-500 text-center">
+                            點擊上方區塊查看詳細物理機制
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="susy" class="reveal scroll-mt-24">
+            <div class="text-center mb-10">
+                <span class="text-cqi-primary font-bold tracking-wider uppercase text-sm">Supersymmetry</span>
+                <h2 class="text-3xl font-bold text-cqi-dark mt-2 mb-4">3.0 超對稱理論與挑戰</h2>
+                <p class="text-slate-600 max-w-3xl mx-auto">
+                    125 GeV 的希格斯玻色子對最小超對稱標準模型（MSSM）構成了嚴峻考驗。理論預測其質量應小於 91.2 GeV。
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <button class="tab-btn active px-6 py-3 rounded-full border border-slate-200 text-slate-600 font-medium transition-all hover:bg-slate-100 focus:outline-none" onclick="openTab(event, 'scenario1')">
+                    情境一：重標量超對稱
+                </button>
+                <button class="tab-btn px-6 py-3 rounded-full border border-slate-200 text-slate-600 font-medium transition-all hover:bg-slate-100 focus:outline-none" onclick="openTab(event, 'scenario2')">
+                    情境二：超頂夸克巨大混合
+                </button>
+                <button class="tab-btn px-6 py-3 rounded-full border border-slate-200 text-slate-600 font-medium transition-all hover:bg-slate-100 focus:outline-none" onclick="openTab(event, 'scenario3')">
+                    情境三：超越最小模型
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 min-h-[300px]">
+                
+                <div id="scenario1" class="tab-content block animate-fade-in-up">
+                    <div class="flex flex-col md:flex-row gap-8 items-start">
+                        <div class="bg-indigo-50 p-6 rounded-xl md:w-1/3 w-full text-center">
+                            <i class="fa-solid fa-arrows-up-down-left-right text-4xl text-indigo-600 mb-4"></i>
+                            <h3 class="text-xl font-bold text-cqi-dark">Split MSSM</h3>
+                            <p class="text-sm text-slate-500 mt-2">重標量超對稱伴子</p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-lg font-bold text-cqi-primary mb-2">核心概念</h4>
+                            <p class="text-slate-600 mb-4">標量超對稱伴子（如超頂夸克 "stops"）的質量遠高於TeV尺度，例如在10 TeV的量級。</p>
+                            <h4 class="text-lg font-bold text-cqi-secondary mb-2">影響與挑戰</h4>
+                            <p class="text-slate-600 text-justify">
+                                這種「分裂模型」可以輕易地解釋125 GeV的希格斯質量。但其代價是，如此重的超對稱伴子將無法有效抵銷對希格斯質量的量子修正，從而放棄了其解決微調問題的初衷，導致理論的「自然性」大幅降低。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scenario2" class="tab-content hidden animate-fade-in-up">
+                    <div class="flex flex-col md:flex-row gap-8 items-start">
+                        <div class="bg-emerald-50 p-6 rounded-xl md:w-1/3 w-full text-center">
+                            <i class="fa-solid fa-shuffle text-4xl text-emerald-600 mb-4"></i>
+                            <h3 class="text-xl font-bold text-cqi-dark">Large Stop Mixing</h3>
+                            <p class="text-sm text-slate-500 mt-2">超頂夸克的巨大混合</p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-lg font-bold text-cqi-primary mb-2">核心概念</h4>
+                            <p class="text-slate-600 mb-4">左右手兩種超頂夸克（stops）之間存在強烈的混合效應（以 X_t 參數衡量）。</p>
+                            <h4 class="text-lg font-bold text-cqi-secondary mb-2">影響與挑戰</h4>
+                            <p class="text-slate-600 text-justify">
+                                在超對稱伴子質量不高於TeV尺度的情況下，巨大的混合效應也能將希格斯質量提升至125 GeV。這種情境雖然保留了理論的自然性，但它對模型的參數施加了非常嚴格且有趣的約束，暗示了一種特殊的超對稱譜結構。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scenario3" class="tab-content hidden animate-fade-in-up">
+                    <div class="flex flex-col md:flex-row gap-8 items-start">
+                        <div class="bg-rose-50 p-6 rounded-xl md:w-1/3 w-full text-center">
+                            <i class="fa-solid fa-rocket text-4xl text-rose-600 mb-4"></i>
+                            <h3 class="text-xl font-bold text-cqi-dark">Beyond MSSM</h3>
+                            <p class="text-sm text-slate-500 mt-2">超越最小模型</p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-lg font-bold text-cqi-primary mb-2">核心概念</h4>
+                            <p class="text-slate-600 mb-4">在MSSM的基礎上引入新的交互作用，使希格斯玻色子在領導階就能獲得額外的質量貢獻。</p>
+                            <h4 class="text-lg font-bold text-cqi-secondary mb-2">影響與挑戰</h4>
+                            <p class="text-slate-600 text-justify">
+                                這是唯一能夠在很大程度上規避微調問題的方案。它強烈暗示，在弱電尺度可能存在除了MSSM之外的新物理，例如額外的規範群或粒子場，這為未來的實驗探索開闢了新的方向。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mt-6 p-4 bg-slate-100 rounded-lg text-slate-600 text-sm leading-relaxed text-justify border-l-4 border-slate-400">
+                <strong>微調問題的根源：</strong> 希格斯質量的平方會接收到巨大的量子修正。若為了產生 125 GeV 質量而設定超頂夸克遠重於弱電尺度，模型就必須進行極端精確的參數抵銷，這被視為是「不自然」的。
+            </div>
+        </section>
+
+        <section id="string" class="reveal scroll-mt-24">
+            <div class="relative bg-cqi-dark text-white rounded-3xl p-8 md:p-12 overflow-hidden shadow-2xl">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-cqi-primary rounded-full blur-3xl opacity-20 -mr-20 -mt-20"></div>
+                <div class="absolute bottom-0 left-0 w-72 h-72 bg-cqi-secondary rounded-full blur-3xl opacity-20 -ml-20 -mb-20"></div>
+
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-slate-600 pb-4">
+                        <span class="text-emerald-400">4.0</span> 弦論視角下的希格斯質量
+                    </h2>
+                    <p class="text-slate-300 mb-8 text-lg">
+                        弦論要求超對稱的存在，而 125 GeV 的觀測值成為了連接低能量實驗與高維理論的關鍵紐帶。
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/10 hover:bg-white/20 transition-all">
+                            <div class="text-2xl font-bold text-slate-400 mb-2">&lt; 125 GeV</div>
+                            <h3 class="text-lg font-bold text-emerald-300 mb-2">QFT-like SUSY</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                對應「簡單且可見的量子場論式超對稱」。伴子質量較輕，希格斯質量自然落在 Z 玻色子質量附近。
+                            </p>
+                        </div>
+
+                        <div class="bg-white/20 backdrop-blur-md rounded-xl p-6 border border-emerald-400/50 shadow-lg ring-2 ring-emerald-500/30 transform scale-105">
+                            <div class="text-2xl font-bold text-white mb-2">&gt; 125 GeV</div>
+                            <h3 class="text-lg font-bold text-emerald-300 mb-2">Stringy SUSY</h3>
+                            <p class="text-sm text-white leading-relaxed">
+                                暗示「隱藏、複雜或擴展的弦論式超對稱」。觀測到的物理可能源自更複雜的高維結構，125 GeV 讓物理學傾向此可能性。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/50 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-leaf text-emerald-400 mr-2"></i>重新定義「自然性」</h3>
+                        <p class="text-slate-300 text-justify text-sm leading-relaxed">
+                            在弦論的宏大景觀（landscape）中，可能存在不同的「自然性」標準。某些看似「微調」的參數區域（如較重的標量粒子），可能比標準的 TeV 尺度 MSSM 更符合弦論的內在邏輯。弦論可能天然地偏好這些區域，因為它們或許能從額外維度的幾何結構或 D-膜的動力學中得到解釋。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="reveal mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-cqi-dark mb-8 text-center">
+                <span class="text-cqi-primary">5.0</span> 結論與展望
+            </h2>
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+                <div class="p-8 md:p-12">
+                    <p class="text-lg text-slate-600 mb-8 text-justify">
+                        125 GeV希格斯玻色子的發現無疑是二十一世紀以來粒子物理學最重要的里程碑，但它也成為了一把雙面刃。它完美地補全了標準模型，卻對超對稱提出了嚴峻挑戰。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-slate-50 p-6 rounded-xl border-t-4 border-cqi-primary">
+                            <i class="fa-solid fa-compress-arrows-alt text-2xl text-cqi-primary mb-3"></i>
+                            <h4 class="font-bold text-cqi-dark mb-2">微調壓力</h4>
+                            <p class="text-sm text-slate-600 text-justify">MSSM 被迫進入需要精確參數抵銷的「微調」區域，削弱了其解決階層問題的吸引力。</p>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-xl border-t-4 border-cqi-secondary">
+                            <i class="fa-solid fa-network-wired text-2xl text-cqi-secondary mb-3"></i>
+                            <h4 class="font-bold text-cqi-dark mb-2">複雜物理</h4>
+                            <p class="text-sm text-slate-600 text-justify">如果超對稱存在，其形式很可能比最簡模型更為複雜（分裂超對稱、混合效應或新交互作用）。</p>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-xl border-t-4 border-cqi-accent">
+                            <i class="fa-solid fa-globe text-2xl text-cqi-accent mb-3"></i>
+                            <h4 class="font-bold text-cqi-dark mb-2">宏大視角</h4>
+                            <p class="text-sm text-slate-600 text-justify">弦論的「自然性」標準可能解釋為何低能量物理呈現出看似微調的狀態，但仍需實驗驗證。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-cqi-primary/10 p-6 text-center">
+                    <p class="text-cqi-primary font-medium">
+                        <i class="fa-solid fa-binoculars mr-2"></i>
+                        未來展望：LHC 與新一代對撞機的實驗結果將是最終的判決者。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-cqi-dark text-slate-300 py-12 border-t border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+                         <i class="fa-solid fa-dna text-cqi-accent"></i>
+                         <h2 class="text-2xl font-bold text-white">CQI365</h2>
+                    </div>
+                    <p class="text-sm text-slate-400">continuous quality improvement 365 days</p>
+                </div>
+                
+                <div class="flex space-x-8 mb-6 md:mb-0">
+                    <a href="https://r78101029.github.io/cqi365_pages/" class="hover:text-cqi-primary transition-colors text-sm font-medium">
+                        <i class="fa-solid fa-house mr-1"></i> 回目錄
+                    </a>
+                    <a href="http://Cqi365.net" target="_blank" class="hover:text-cqi-primary transition-colors text-sm font-medium">
+                        <i class="fa-solid fa-globe mr-1"></i> Cqi365.net
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-slate-700 mt-8 pt-8 text-center text-xs text-slate-500">
+                &copy; 2024 CQI365. All rights reserved. Designed for Academic Excellence.
+            </div>
         </div>
-        <p>在標準模型中，遍佈宇宙的希格斯場就扮演著這個角色。其位能函數形狀類似墨西哥帽。在宇宙早期高溫時，系統處於對稱的「帽頂」狀態；隨著宇宙冷卻，希格斯場「滾落」到能量更低的「谷底」，獲得了一個非零的真空期望值。這個過程打破了電弱交互作用的對稱性。</p>
+    </footer>
 
-        <h3>2.2 質量的生成</h3>
-        <p>自發對稱性破缺的後果是深遠的，它以兩種不同的方式為基本粒子賦予了質量：</p>
-        <ul>
-            <li><strong>規範玻色子的質量：</strong>對於 W 和 Z 玻色子，它們的質量源於其與希格斯場非零真空期望值（VEV）的交互作用。當規範場的動能項在圍繞此非零真空期望值展開時，會自然生成二次項（形式如 m² A_μ A^μ），這些項在拉格朗日量中數學上等同於質量項。其物理圖像可理解為規範場在遍佈於真空中的恆定希格斯背景場中傳播而獲得了有效質量。此過程同時巧妙地「抵銷」了理論中原本會出現的、不被實驗支持的零質量戈德斯通玻色子（Goldstone bosons）。而傳遞電磁力的光子不與希格斯場發生此類交互作用，因此保持零質量。</li>
-            <li><strong>費米子的質量：</strong>對於構成物質的基本粒子，如電子和夸克（統稱費米子），它們的質量則源於與希格斯場的另一種交互作用，稱為「湯川耦合」（Yukawa coupling）。不同粒子與希格斯場的耦合強度不同，這也決定了它們質量的巨大差異。</li>
-        </ul>
-        <p>儘管希格斯機制在標準模型框架內取得了巨大成功，完美解釋了 W、Z 玻色子與費米子的質量起源，但它自身卻留下了一個懸而未決的問題：希格斯玻色子自身的質量為何能穩定在 125 GeV？這個看似簡單的問題背後隱藏著巨大的理論困難，並為超對稱等新物理理論的發展提供了最為強勁的動機。</p>
-    </section>
+    <script>
+        // Tab Functionality for Section 3
+        function openTab(evt, scenarioName) {
+            var i, tabcontent, tablinks;
+            
+            // Hide all tab content
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.add("hidden");
+                tabcontent[i].classList.remove("block");
+            }
+            
+            // Deactivate all buttons
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+                tablinks[i].classList.remove("bg-cqi-primary", "text-white");
+                tablinks[i].classList.add("bg-white", "text-slate-600");
+            }
+            
+            // Show current tab and activate button
+            document.getElementById(scenarioName).classList.remove("hidden");
+            document.getElementById(scenarioName).classList.add("block");
+            evt.currentTarget.classList.add("active");
+        }
 
-    <hr>
+        // Accordion Functionality for Section 2
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            
+            // Close all other accordions (optional, but cleaner)
+            const allContents = document.querySelectorAll('.accordion-content');
+            const allBtns = document.querySelectorAll('.accordion-btn');
+            
+            allContents.forEach(c => c.classList.remove('open'));
+            allBtns.forEach(b => b.setAttribute('aria-expanded', 'false'));
 
-    <section id="susy">
-        <h2>3.0 超對稱理論（Supersymmetry, SUSY）及其挑戰</h2>
-        <p>超對稱理論，特別是其最簡版本——最小超對稱標準模型（Minimal Supersymmetric Standard Model, MSSM），長久以來被視為解決標準模型階層問題最有希望的候選者。然而，125 GeV 希格斯玻色子的發現，對 MSSM 的參數空間施加了前所未有的強烈約束，並引發了一場關於理論「自然性」（naturalness）與「微調」（fine-tuning）的深刻辯論。</p>
-        <p>在理論上，MSSM 極具吸引力。在其最簡單的領導階（leading order）預測中，它要求希格斯玻色子的質量必須小於 Z 玻色子的質量（即 m_h < m_Z ≈ 91.2 GeV）。這顯然與觀測到的 125 GeV 相矛盾。不過，理論家們指出，來自超對稱伴子（特別是超頂夸克，"stops"）的量子修正效應可以將預測值提升。問題在於，要將質量從 91.2 GeV 以下提升至 125 GeV，需要相當大的修正，這使得 125 GeV 成為一個「出乎意料的大質量」。</p>
-        <p>為了達成如此大的質量提升，我們必須檢視將希格斯質量從其樹圖層級值提升的一迴路量子修正公式。此修正主要來自於頂夸克-超頂夸克（top-stop）迴路。因此，若要在 MSSM 框架內獲得 125 GeV 的質量，理論上存在三條邏輯路徑，分別導向了三種截然不同的理論情境：</p>
+            if (!expanded) {
+                content.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        }
 
-        <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th width="20%">情境</th>
-                    <th width="35%">核心概念</th>
-                    <th width="45%">對理論的影響與挑戰</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="情境"><strong>重標量超對稱伴子<br>(Split MSSM)</strong></td>
-                    <td data-label="核心概念">標量超對稱伴子（如超頂夸克 "stops"）的質量遠高於 TeV 尺度，例如在 10 TeV 的量級。</td>
-                    <td data-label="影響與挑戰">這種「分裂模型」可以輕易地解釋 125 GeV 的希格斯質量。但其代價是，如此重的超對稱伴子將無法有效抵銷對希格斯質量的量子修正，從而放棄了其解決微調問題的初衷，導致理論的「自然性」大幅降低。</td>
-                </tr>
-                <tr>
-                    <td data-label="情境"><strong>超頂夸克的巨大混合<br>(Large Stop Mixing)</strong></td>
-                    <td data-label="核心概念">左右手兩種超頂夸克（stops）之間存在強烈的混合效應（以 X_t 參數衡量）。</td>
-                    <td data-label="影響與挑戰">在超對稱伴子質量不高於 TeV 尺度的情況下，巨大的混合效應也能將希格斯質量提升至 125 GeV。這種情境雖然保留了理論的自然性，但它對模型的參數施加了非常嚴格且有趣的約束，暗示了一種特殊的超對稱譜結構。</td>
-                </tr>
-                <tr>
-                    <td data-label="情境"><strong>超越最小模型<br>(Beyond the MSSM)</strong></td>
-                    <td data-label="核心概念">在 MSSM 的基礎上引入新的交互作用，使希格斯玻色子在領導階就能獲得額外的質量貢獻。</td>
-                    <td data-label="影響與挑戰">這是唯一能夠在很大程度上規避微調問題的方案。它強烈暗示，在弱電尺度可能存在除了 MSSM 之外的新物理，例如額外的規範群或粒子場，這為未來的實驗探索開闢了新的方向。</td>
-                </tr>
-            </tbody>
-        </table>
+        // Scroll Reveal Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set first accordion open by default
+            const firstAccordionBtn = document.querySelector('.accordion-btn');
+            if(firstAccordionBtn) toggleAccordion(firstAccordionBtn);
 
-        <p>這三種情境的核心都圍繞著「微調問題」。其技術根源在於，希格斯質量的平方參數會接收到巨大的、二次方發散的量子修正。在超對稱理論中，來自頂夸克和超頂夸克迴路的貢獻符號相反，本應自然地相互抵銷。然而，若為了產生 125 GeV 質量而設定超頂夸克遠重於弱電尺度，這種抵銷就會變得不再精確。這就要求模型的裸質量參數與巨大的量子修正之間必須進行極端精確的、猶如「不自然」巧合般的抵銷。在許多物理學家看來，這種依賴於巧合的精確抵銷是「不自然的」。</p>
-    </section>
+            // Intersection Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
 
-    <hr>
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
 
-    <section id="string-theory">
-        <h2>4.0 弦論視角下的希格斯質量與自然性</h2>
-        <p>弦論，因其在高能量下的數學自洽性，要求超對稱的存在。然而，它並不直接預測希格斯玻色子的質量。反之，觀測到的 125 GeV 質量值成為了一個來自低能量實驗的關鍵約束，它強烈地排除了超對稱最簡潔的實現方式。這進而驅使弦論現象學家去探索更複雜或非最小化的超對稱破缺情境。</p>
-
-        <h3>4.1 弦論中的超對稱邊界</h3>
-        <p>弦論與我們在對撞機中尋找的低能量超對稱之間是一種間接但深刻的關聯。物理學家 Luboš Motl 精闢地指出，125 GeV 這個質量值恰好位於一個有趣的邊界地帶：</p>
-        <ul>
-            <li><strong>低於 125 GeV：</strong>這個區域對應的是「簡單且可見的量子場論式超對稱」（simple and visible QFT-like SUSY）。在這種情境下，超對稱伴子的質量較輕，修正效應較小，希格斯質量自然地落在 Z 玻色子質量附近。</li>
-            <li><strong>高於 125 GeV：</strong>這個區域則暗示了「隱藏、複雜或擴展的弦論式超對稱」（hidden, complicated, or extended SUSY）。這意味著我們觀測到的低能量物理可能源自一個更複雜的高維弦論結構，其超對稱破缺機制也更為精巧，從而產生了較重的希格斯質量。</li>
-        </ul>
-        <p>從這個角度看，125 GeV 的發現將理論物理推向了後一種可能性，暗示著自然界選擇的超對稱形式可能比最簡潔的 MSSM 模型更為複雜和「弦論化」。</p>
-
-        <h3>4.2 重新定義「自然性」</h3>
-        <p>弦論的框架也可能改變我們對「自然性」標準的看法。在傳統的量子場論（QFT）中，微調被認為是不自然的。然而，在弦論或 M 理論的宏大景觀（landscape）中，可能存在著不同的「自然性」標準。例如，一些評論指出，某些包含大一統（grand unification）思想或具有較重標量粒子（如 10 TeV）的「略微分裂模型」，可能比標準的 TeV 尺度 MSSM 更符合弦論的內在邏輯。</p>
-        <p>換言之，弦論可能天然地偏好某些看似「微調」的參數區域，因為這些參數或許能從更深層次的原理（如額外維度的幾何結構或 D-膜的動力學）中得到解釋。</p>
-    </section>
-
-    <hr>
-
-    <section id="conclusion">
-        <h2>5.0 結論與展望</h2>
-        <p>125 GeV 希格斯玻色子的發現無疑是二十一世紀以來粒子物理學最重要的里程碑，但它也成為了一把雙面刃。一方面，它完美地補全了標準模型的最後一塊拼圖；另一方面，它卻對數十年來最主流的超越標準模型理論——超對稱，提出了嚴峻甚至可謂根本性的挑戰。</p>
-        <p>本綜述的核心論點可以總結如下：</p>
-        <ul>
-            <li><strong>MSSM 面臨微調壓力：</strong>觀測到的 125 GeV 希格斯質量遠高於最小超對稱標準模型（MSSM）的自然預期，迫使模型進入需要精確參數抵銷的「微調」區域。</li>
-            <li><strong>暗示更複雜的物理：</strong>當前的數據強烈暗示，如果 TeV 尺度的超對稱理論為真，其形式很可能比最簡模型更為複雜（如分裂超對稱、巨大的混合效應，或新交互作用）。</li>
-            <li><strong>弦論提供宏大視角：</strong>弦論作為超對稱的理論根基，其獨特的「自然性」標準可能解釋為何低能量物理呈現出看似微調的狀態。</li>
-        </ul>
-        <p>展望未來，粒子物理學正處於一個關鍵的十字路口。大型強子對撞機（LHC）的高亮度升級以及未來可能的新一代粒子對撞機，其核心任務之一便是直接尋找超對稱伴子或其他新粒子的蛛絲馬跡。這些實驗的結果將是最終的判決者，它們將告訴我們自然界究竟選擇了哪條道路。</p>
-    </section>
-</div>
-
+            const sections = document.querySelectorAll('.reveal');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
