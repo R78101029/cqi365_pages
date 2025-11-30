@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>賦能授權矩陣 | 領導團隊與任務分配的新架構</title>
-    <meta name="description" content="告別傳統四象限，建立以「重要性」與「領導者參與必要性」為核心的授權新架構。">
+    <title>賦能授權矩陣 | CQI365 效率與品質領導</title>
+    <meta name="description" content="CQI365 呈現：告別傳統四象限，建立以「重要性」與「領導者參與必要性」為核心的授權新架構。">
     
+    <!-- Tailwind CSS (via CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Custom Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -21,10 +25,10 @@
                     },
                     colors: {
                         brand: {
-                            dark: '#0f172a',
-                            primary: '#3b82f6',
-                            accent: '#06b6d4',
-                            surface: '#f8fafc'
+                            dark: '#1e293b',    // Slate 800 - 深沈穩重
+                            primary: '#336677', // Muted Teal Blue - 醫學/專業/品質 (低彩度藍)
+                            accent: '#5a8c7d',  // Muted Sage Green - 效率/成長/工具 (低彩度綠)
+                            surface: '#f0f4f8'  // Cool Grey - 資訊底色
                         }
                     }
                 }
@@ -35,14 +39,14 @@
     <style>
         /* Custom Utilities & Animations */
         body {
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: #f0f4f8;
+            color: #334155;
         }
 
         .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.6);
         }
 
         /* Scroll Animations */
@@ -71,7 +75,7 @@
 
         .matrix-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
         }
 
         /* Step Timeline */
@@ -82,7 +86,7 @@
             bottom: 0;
             left: 20px;
             width: 2px;
-            background: #e2e8f0;
+            background: #cbd5e1;
             z-index: 0;
         }
         
@@ -95,79 +99,100 @@
 </head>
 <body class="antialiased selection:bg-brand-primary selection:text-white">
 
+    <!-- Navigation -->
     <nav class="fixed w-full z-50 glass-nav top-0 start-0">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <div class="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center text-white font-bold">
-                    <i class="fa-solid fa-layer-group"></i>
+            <a href="http://Cqi365.net" target="_blank" class="flex items-center space-x-3 rtl:space-x-reverse group">
+                <div class="w-10 h-10 bg-brand-primary rounded-lg flex items-center justify-center text-white font-bold shadow-md group-hover:bg-brand-accent transition-colors duration-300">
+                    <span class="text-sm tracking-tighter">CQI</span>
                 </div>
-                <span class="self-center text-xl font-bold whitespace-nowrap text-slate-800">賦能授權矩陣</span>
+                <div class="flex flex-col">
+                    <span class="self-center text-xl font-bold whitespace-nowrap text-slate-700 group-hover:text-brand-primary transition-colors">CQI 365</span>
+                    <span class="text-[10px] text-slate-500 tracking-wide uppercase">Continuous Quality Improvement</span>
+                </div>
             </a>
             <div class="hidden md:block w-full md:w-auto" id="navbar-default">
-                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 items-center">
                     <li><a href="#intro" class="block py-2 px-3 text-slate-600 hover:text-brand-primary transition">背景</a></li>
                     <li><a href="#matrix" class="block py-2 px-3 text-slate-600 hover:text-brand-primary transition">矩陣架構</a></li>
-                    <li><a href="#details" class="block py-2 px-3 text-slate-600 hover:text-brand-primary transition">四象限詳解</a></li>
-                    <li><a href="#implementation" class="block py-2 px-3 text-brand-primary bg-brand-primary/10 rounded-full px-4">實踐指南</a></li>
+                    <li><a href="#details" class="block py-2 px-3 text-slate-600 hover:text-brand-primary transition">詳細解析</a></li>
+                    <li><a href="#implementation" class="block py-2 px-3 text-brand-primary bg-brand-primary/10 rounded-full px-4 border border-brand-primary/20">實踐指南</a></li>
+                    <li class="border-l border-slate-300 pl-6 ml-2">
+                        <a href="http://Cqi365.net" target="_blank" class="text-slate-400 hover:text-brand-accent transition" title="前往 CQI365.net">
+                            <i class="fa-solid fa-house-medical"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <section class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden bg-white">
+    <!-- Header Image Banner -->
+    <div class="w-full h-48 md:h-80 overflow-hidden relative mt-20 group">
+        <img src="https://cqi365.net/wp-content/uploads/2024/06/Twitter_Header_Image.png" 
+             alt="CQI365 Header Banner" 
+             class="w-full h-full object-cover object-center transform group-hover:scale-105 transition duration-1000 ease-in-out filter brightness-95 saturate-[0.8]">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-surface via-transparent to-transparent opacity-90"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-brand-surface pb-16 pt-8">
+        <!-- Background Decoration (Muted Colors) -->
         <div class="absolute -top-40 -right-40 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl"></div>
         <div class="absolute top-40 -left-20 w-72 h-72 bg-brand-accent/10 rounded-full blur-3xl"></div>
 
         <div class="container mx-auto px-4 text-center z-10 relative reveal active">
-            <span class="inline-block py-1 px-3 rounded-full bg-slate-100 text-slate-600 text-sm font-semibold mb-6 tracking-wide border border-slate-200">
-                LEADERSHIP FRAMEWORK 2.0
+            <span class="inline-block py-1 px-4 rounded-full bg-white text-brand-primary text-xs font-bold mb-6 tracking-widest border border-brand-primary/20 uppercase shadow-sm">
+                Efficiency • Medicine • Quality • Tools
             </span>
-            <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">
-                從「時間管理」進化為<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-accent">策略領導</span>
+            <h1 class="text-4xl md:text-6xl font-black text-slate-800 mb-6 leading-tight">
+                賦能授權矩陣<br>
+                <span class="text-3xl md:text-4xl font-medium text-slate-500 mt-2 block">領導團隊與任務分配的新架構</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                 告別傳統艾森豪矩陣。透過「重要性」與「領導者參與必要性」的新架構，
-                專注於只有你才能做的戰略事項，釋放團隊潛能。
+                專注於只有你才能做的戰略事項，實現 <span class="text-brand-primary font-bold">Continuous Quality Improvement 365 days</span>。
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#matrix" class="px-8 py-4 bg-brand-primary hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <a href="#matrix" class="px-8 py-4 bg-brand-primary hover:bg-slate-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
                     探索矩陣模型
                 </a>
-                <a href="#details" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 font-bold rounded-xl hover:bg-slate-50 transition">
-                    深入了解象限
+                <a href="http://Cqi365.net" target="_blank" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 font-bold rounded-xl hover:bg-slate-50 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-link text-brand-accent"></i> 訪問 CQI365.net
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="intro" class="py-24 bg-slate-50">
+    <!-- The Problem -->
+    <section id="intro" class="py-24 bg-white">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="reveal">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-6">為什麼艾森豪矩陣還不夠？</h2>
-                    <div class="space-y-6 text-slate-600 leading-relaxed">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 border-l-4 border-brand-accent pl-4">為什麼艾森豪矩陣還不夠？</h2>
+                    <div class="space-y-6 text-slate-600 leading-relaxed text-justify">
                         <p>
-                            傳統的艾森豪矩陣（緊急 vs 重要）是優秀的個人時間管理工具，但在<strong>團隊領導</strong>的情境下卻顯得力不從心。
+                            傳統的艾森豪矩陣（緊急 vs 重要）是優秀的個人時間管理工具，但在<strong>醫療、品質管理與團隊領導</strong>的複雜情境下卻顯得力不從心。
                         </p>
-                        <div class="bg-white p-6 rounded-xl border-l-4 border-red-400 shadow-sm">
-                            <h4 class="font-bold text-slate-800 mb-2">核心局限性</h4>
+                        <div class="bg-brand-surface p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-brand-dark mb-2"><i class="fa-solid fa-triangle-exclamation text-brand-primary mr-2"></i>核心局限性</h4>
                             <p>它告訴你什麼事情「緊急」，卻沒有告訴你這件事<strong>「是否必須由領導者親自完成」</strong>。</p>
                         </div>
                         <p>
-                            現代領導者需要的不是單打獨鬥，而是一個能協助判斷「自己做」還是「授權」的精細化架構。
+                            現代領導者需要的不是單打獨鬥，而是一個能協助判斷「自己做」還是「授權」的精細化架構，以達到最佳的<strong>效率 (Efficiency)</strong> 與<strong>品質 (Quality)</strong>。
                         </p>
                     </div>
                 </div>
                 <div class="relative reveal delay-200">
+                    <!-- Visual Comparison -->
                     <div class="bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
                         <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
-                            <div class="text-center opacity-50">
+                            <div class="text-center opacity-60 grayscale">
                                 <div class="text-sm font-bold text-slate-400">OLD</div>
                                 <div class="text-xl font-bold">艾森豪矩陣</div>
                                 <div class="text-xs">緊急 x 重要</div>
                             </div>
-                            <i class="fa-solid fa-arrow-right text-brand-primary text-2xl animate-pulse"></i>
+                            <i class="fa-solid fa-arrow-right text-brand-accent text-2xl animate-pulse"></i>
                             <div class="text-center text-brand-primary">
                                 <div class="text-sm font-bold text-brand-accent">NEW</div>
                                 <div class="text-xl font-bold">賦能授權矩陣</div>
@@ -176,16 +201,16 @@
                         </div>
                         <ul class="space-y-4">
                             <li class="flex items-start">
-                                <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i>
+                                <div class="mt-1 mr-3 w-5 h-5 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent text-xs"><i class="fa-solid fa-check"></i></div>
                                 <span class="text-sm text-slate-600">納入「領導者獨特價值」維度</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i>
+                                <div class="mt-1 mr-3 w-5 h-5 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent text-xs"><i class="fa-solid fa-check"></i></div>
                                 <span class="text-sm text-slate-600">明確區分「戰略執行」與「賦能授權」</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i>
-                                <span class="text-sm text-slate-600">解決「不敢放權」與「過度微觀管理」的困境</span>
+                                <div class="mt-1 mr-3 w-5 h-5 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent text-xs"><i class="fa-solid fa-check"></i></div>
+                                <span class="text-sm text-slate-600">符合持續品質改善 (CQI) 的精神</span>
                             </li>
                         </ul>
                     </div>
@@ -194,77 +219,86 @@
         </div>
     </section>
 
-    <section id="matrix" class="py-24 bg-white relative">
+    <!-- The Matrix Visualization -->
+    <section id="matrix" class="py-24 bg-brand-surface relative">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">賦能授權矩陣</h2>
-                <p class="text-slate-500">基於「重要性」與「領導者參與必要性」的決策框架</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">賦能授權矩陣</h2>
+                <p class="text-slate-500">基於 CQI 思維的決策框架</p>
             </div>
 
+            <!-- Matrix Layout -->
             <div class="relative max-w-5xl mx-auto">
                 
+                <!-- Y-Axis Label -->
                 <div class="absolute -left-12 md:-left-16 top-0 bottom-0 flex items-center justify-center">
-                    <span class="block -rotate-90 text-sm font-bold tracking-widest text-slate-400 whitespace-nowrap">
-                        領導者參與必要性 (Necessity)
+                    <span class="block -rotate-90 text-sm font-bold tracking-widest text-slate-400 whitespace-nowrap uppercase">
+                        Necessity (參與必要性)
                     </span>
                 </div>
                 
-                <div class="absolute top-[-40px] left-0 right-0 flex justify-between px-12 text-sm font-bold tracking-widest text-slate-400">
-                    <span>高重要性 (High Importance)</span>
-                    <span>低重要性 (Low Importance)</span>
+                <!-- X-Axis Label -->
+                <div class="absolute top-[-40px] left-0 right-0 flex justify-between px-12 text-sm font-bold tracking-widest text-slate-400 uppercase">
+                    <span>High Importance</span>
+                    <span>Low Importance</span>
                 </div>
 
+                <!-- Grid -->
                 <div class="matrix-grid reveal">
                     
-                    <div class="matrix-card bg-slate-900 text-white p-8 rounded-2xl flex flex-col justify-between h-64 border-2 border-slate-900">
+                    <!-- Q1: Blue (Strategy) -->
+                    <div class="matrix-card bg-brand-primary text-white p-8 rounded-2xl flex flex-col justify-between h-64 border border-brand-primary shadow-lg">
                         <div class="flex justify-between items-start">
-                            <div class="bg-white/10 p-2 rounded-lg">
-                                <i class="fa-solid fa-chess-king text-2xl text-yellow-400"></i>
+                            <div class="bg-white/10 p-2 rounded-lg backdrop-blur-sm">
+                                <i class="fa-solid fa-chess-king text-2xl text-white"></i>
                             </div>
-                            <span class="text-xs font-bold bg-yellow-500 text-black px-2 py-1 rounded">象限一</span>
+                            <span class="text-xs font-bold bg-white/20 text-white px-3 py-1 rounded-full backdrop-blur-md">Q1 策略</span>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold mb-2">親自執行</h3>
-                            <p class="text-slate-300 text-sm">策略聚焦、高層決策、危機處理</p>
+                            <h3 class="text-2xl font-bold mb-2 tracking-tight">親自執行</h3>
+                            <p class="text-blue-100 text-sm opacity-90">策略聚焦、高層決策、危機處理</p>
                         </div>
                     </div>
 
-                    <div class="matrix-card bg-slate-100 p-8 rounded-2xl flex flex-col justify-between h-64 border-2 border-slate-200">
+                    <!-- Q3: Grey (Supervision) -->
+                    <div class="matrix-card bg-white p-8 rounded-2xl flex flex-col justify-between h-64 border border-slate-200">
                         <div class="flex justify-between items-start">
-                            <div class="bg-white p-2 rounded-lg shadow-sm">
-                                <i class="fa-solid fa-eye text-2xl text-slate-500"></i>
+                            <div class="bg-slate-100 p-2 rounded-lg">
+                                <i class="fa-solid fa-eye text-2xl text-slate-400"></i>
                             </div>
-                            <span class="text-xs font-bold bg-slate-300 text-slate-700 px-2 py-1 rounded">象限三</span>
+                            <span class="text-xs font-bold bg-slate-200 text-slate-600 px-3 py-1 rounded-full">Q3 監督</span>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">評估與監督</h3>
-                            <p class="text-slate-600 text-sm">偶爾參與、例行審閱、指導支援</p>
+                            <h3 class="text-2xl font-bold text-slate-700 mb-2">評估與監督</h3>
+                            <p class="text-slate-500 text-sm">偶爾參與、例行審閱、指導支援</p>
                         </div>
                     </div>
 
-                    <div class="matrix-card bg-brand-primary p-8 rounded-2xl flex flex-col justify-between h-64 text-white border-2 border-brand-primary shadow-lg shadow-blue-200">
+                    <!-- Q2: Green (Growth/Delegation) -->
+                    <div class="matrix-card bg-brand-accent p-8 rounded-2xl flex flex-col justify-between h-64 text-white border border-brand-accent shadow-lg">
                         <div class="flex justify-between items-start">
-                            <div class="bg-white/20 p-2 rounded-lg">
+                            <div class="bg-white/10 p-2 rounded-lg backdrop-blur-sm">
                                 <i class="fa-solid fa-seedling text-2xl text-white"></i>
                             </div>
-                            <span class="text-xs font-bold bg-white/20 px-2 py-1 rounded">象限二</span>
+                            <span class="text-xs font-bold bg-white/20 text-white px-3 py-1 rounded-full backdrop-blur-md">Q2 賦能</span>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold mb-2">策略性授權</h3>
-                            <p class="text-blue-100 text-sm">賦能成長、專案管理、培養人才</p>
+                            <h3 class="text-2xl font-bold mb-2 tracking-tight">策略性授權</h3>
+                            <p class="text-green-50 text-sm opacity-90">賦能成長、專案管理、培養人才</p>
                         </div>
                     </div>
 
-                    <div class="matrix-card bg-white p-8 rounded-2xl flex flex-col justify-between h-64 border-2 border-dashed border-slate-300">
+                    <!-- Q4: White/Light (Eliminate) -->
+                    <div class="matrix-card bg-slate-50 p-8 rounded-2xl flex flex-col justify-between h-64 border border-dashed border-slate-300">
                         <div class="flex justify-between items-start">
-                            <div class="bg-slate-50 p-2 rounded-lg">
+                            <div class="bg-white p-2 rounded-lg border border-slate-100">
                                 <i class="fa-solid fa-trash-can text-2xl text-slate-400"></i>
                             </div>
-                            <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">象限四</span>
+                            <span class="text-xs font-bold bg-slate-200 text-slate-500 px-3 py-1 rounded-full">Q4 效率</span>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-slate-400 mb-2">授權或淘汰</h3>
-                            <p class="text-slate-400 text-sm">行政瑣事、自動化、效率優化</p>
+                            <p class="text-slate-400 text-sm">行政瑣事、自動化、流程優化</p>
                         </div>
                     </div>
 
@@ -273,22 +307,24 @@
         </div>
     </section>
 
-    <section id="details" class="py-24 bg-slate-50">
+    <!-- Deep Dive Details -->
+    <section id="details" class="py-24 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl font-bold text-slate-900">深入剖析各象限</h2>
+                <h2 class="text-3xl font-bold text-slate-800">深入剖析各象限</h2>
                 <p class="mt-4 text-slate-600">領導者如何精準判斷任務歸屬？</p>
             </div>
 
             <div class="space-y-8">
-                <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-slate-800 flex flex-col md:flex-row gap-8">
+                <!-- Q1 Detail -->
+                <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-brand-primary flex flex-col md:flex-row gap-8 hover:bg-slate-50 transition">
                     <div class="md:w-1/3">
                         <h3 class="text-2xl font-bold text-slate-800 mb-2">Q1. 親自執行 (策略聚焦)</h3>
-                        <div class="text-sm font-semibold text-red-500 mb-4">高重要性 & 高領導參與</div>
+                        <div class="text-sm font-semibold text-brand-primary mb-4">高重要性 & 高領導參與</div>
                         <p class="text-slate-600">這些任務對組織願景至關重要，且需要你獨特的權威、經驗或關係網。</p>
                     </div>
-                    <div class="md:w-2/3 bg-slate-50 p-6 rounded-xl">
-                        <h4 class="font-bold text-slate-700 mb-3">範例任務：</h4>
+                    <div class="md:w-2/3 bg-brand-surface p-6 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-brand-primary mb-3">範例任務：</h4>
                         <ul class="grid md:grid-cols-2 gap-4">
                             <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-compass text-slate-400 mr-2"></i> 制定長期戰略方向</li>
                             <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-handshake text-slate-400 mr-2"></i> 與關鍵客戶/高層溝通</li>
@@ -298,135 +334,166 @@
                     </div>
                 </div>
 
-                <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-brand-primary flex flex-col md:flex-row gap-8">
+                <!-- Q2 Detail -->
+                <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-brand-accent flex flex-col md:flex-row gap-8 hover:bg-slate-50 transition">
                     <div class="md:w-1/3">
                         <h3 class="text-2xl font-bold text-slate-800 mb-2">Q2. 策略性授權 (賦能成長)</h3>
-                        <div class="text-sm font-semibold text-brand-primary mb-4">高重要性 & 低領導參與</div>
+                        <div class="text-sm font-semibold text-brand-accent mb-4">高重要性 & 低領導參與</div>
                         <p class="text-slate-600">這是最關鍵的區域。任務很重要，但團隊成員具備技能（或需要機會）來完成。這是培養「接班人」的最佳場域。</p>
                     </div>
-                    <div class="md:w-2/3 bg-blue-50 p-6 rounded-xl">
-                        <h4 class="font-bold text-slate-700 mb-3">範例任務：</h4>
+                    <div class="md:w-2/3 bg-brand-surface p-6 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-brand-accent mb-3">範例任務：</h4>
                         <ul class="grid md:grid-cols-2 gap-4">
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-list-check text-blue-400 mr-2"></i> 領導重要專案或計劃</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-chart-pie text-blue-400 mr-2"></i> 市場研究與戰略分析</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-lightbulb text-blue-400 mr-2"></i> 新產品開發執行</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-users text-blue-400 mr-2"></i> 主持協作會議</li>
+                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-list-check text-brand-accent mr-2 opacity-70"></i> 領導重要專案或計劃</li>
+                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-chart-pie text-brand-accent mr-2 opacity-70"></i> 市場研究與戰略分析</li>
+                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-lightbulb text-brand-accent mr-2 opacity-70"></i> 新產品開發執行</li>
+                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-users text-brand-accent mr-2 opacity-70"></i> 主持協作會議</li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-slate-300 flex flex-col md:flex-row gap-8">
-                    <div class="md:w-1/3">
-                        <h3 class="text-2xl font-bold text-slate-800 mb-2">Q3. 評估與潛在參與 (監督)</h3>
-                        <div class="text-sm font-semibold text-slate-500 mb-4">低重要性 & 高領導參與</div>
-                        <p class="text-slate-600">陷阱區。看起來需要你，但其實影響力低。應盡量簡化流程，或指導團隊自行解決，避免深陷其中。</p>
+                <!-- Q3 & Q4 condensed for better flow -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Q3 Detail -->
+                    <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-slate-300 flex flex-col gap-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-1">Q3. 評估與監督</h3>
+                            <div class="text-xs font-semibold text-slate-500 mb-2">低重要性 & 高領導參與</div>
+                            <p class="text-sm text-slate-600">陷阱區。看起來需要你，但其實影響力低。應盡量簡化流程。</p>
+                        </div>
+                        <div class="bg-brand-surface p-4 rounded-xl border border-slate-100 mt-auto">
+                            <ul class="space-y-2">
+                                <li class="flex items-center text-xs text-slate-600"><i class="fa-solid fa-file-signature text-slate-400 mr-2"></i> 審閱例行性報告</li>
+                                <li class="flex items-center text-xs text-slate-600"><i class="fa-solid fa-envelope-open text-slate-400 mr-2"></i> 處理次要內部郵件</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="md:w-2/3 bg-slate-50 p-6 rounded-xl">
-                        <h4 class="font-bold text-slate-700 mb-3">範例任務：</h4>
-                        <ul class="grid md:grid-cols-2 gap-4">
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-file-signature text-slate-400 mr-2"></i> 審閱例行性報告</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-building-user text-slate-400 mr-2"></i> 參與非核心的跨部門會議</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-envelope-open text-slate-400 mr-2"></i> 處理次要內部郵件</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-circle-question text-slate-400 mr-2"></i> 非核心任務諮詢</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-slate-200 flex flex-col md:flex-row gap-8 opacity-75 hover:opacity-100 transition">
-                    <div class="md:w-1/3">
-                        <h3 class="text-2xl font-bold text-slate-800 mb-2">Q4. 授權或淘汰 (效率)</h3>
-                        <div class="text-sm font-semibold text-slate-400 mb-4">低重要性 & 低領導參與</div>
-                        <p class="text-slate-600">雜事區。這類工作應交由行政支援、初級員工，或透過自動化工具解決。甚至應該考慮直接刪除。</p>
-                    </div>
-                    <div class="md:w-2/3 bg-slate-50 p-6 rounded-xl">
-                        <h4 class="font-bold text-slate-700 mb-3">範例任務：</h4>
-                        <ul class="grid md:grid-cols-2 gap-4">
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-regular fa-calendar-days text-slate-400 mr-2"></i> 會議安排與場地預訂</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-box-archive text-slate-400 mr-2"></i> 文件歸檔與整理</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-reply text-slate-400 mr-2"></i> 回覆一般詢問</li>
-                            <li class="flex items-center text-sm text-slate-600"><i class="fa-solid fa-address-book text-slate-400 mr-2"></i> 更新通訊錄資料</li>
-                        </ul>
+                    <!-- Q4 Detail -->
+                    <div class="reveal bg-white rounded-2xl p-8 shadow-sm border-l-8 border-slate-200 flex flex-col gap-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-1">Q4. 授權或淘汰 (效率)</h3>
+                            <div class="text-xs font-semibold text-slate-400 mb-2">低重要性 & 低領導參與</div>
+                            <p class="text-sm text-slate-600">雜事區。應交由工具自動化或直接刪除，提升效率。</p>
+                        </div>
+                        <div class="bg-brand-surface p-4 rounded-xl border border-slate-100 mt-auto">
+                            <ul class="space-y-2">
+                                <li class="flex items-center text-xs text-slate-600"><i class="fa-solid fa-box-archive text-slate-400 mr-2"></i> 文件歸檔與整理</li>
+                                <li class="flex items-center text-xs text-slate-600"><i class="fa-solid fa-reply text-slate-400 mr-2"></i> 流程自動化</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="implementation" class="py-24 bg-brand-dark text-white relative">
+    <!-- Implementation Steps -->
+    <section id="implementation" class="py-24 bg-brand-primary text-white relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-accent/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2"></div>
+
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16 reveal">
                 <h2 class="text-3xl font-bold mb-4">如何落地執行？</h2>
-                <p class="text-slate-400">6個步驟，將矩陣轉化為行動</p>
+                <p class="text-blue-100 opacity-80">6個步驟，將矩陣轉化為行動</p>
             </div>
 
             <div class="max-w-3xl mx-auto relative step-line pl-10 space-y-12">
+                <!-- Step 1 -->
                 <div class="relative reveal">
-                    <div class="absolute -left-[52px] w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-dark z-10">1</div>
+                    <div class="absolute -left-[52px] w-10 h-10 bg-white text-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-primary z-10 shadow-lg">1</div>
                     <div>
-                        <h3 class="text-xl font-bold mb-2">任務盤點</h3>
-                        <p class="text-slate-400">誠實列出手中所有待處理的任務和活動。</p>
+                        <h3 class="text-xl font-bold mb-2">任務盤點 (Audit)</h3>
+                        <p class="text-blue-100 opacity-80">誠實列出手中所有待處理的任務和活動。</p>
                     </div>
                 </div>
 
+                <!-- Step 2 -->
                 <div class="relative reveal">
-                    <div class="absolute -left-[52px] w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-dark z-10">2</div>
+                    <div class="absolute -left-[52px] w-10 h-10 bg-white text-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-primary z-10 shadow-lg">2</div>
                     <div>
-                        <h3 class="text-xl font-bold mb-2">評估重要性</h3>
-                        <p class="text-slate-400">這項任務對組織的戰略目標與關鍵成果有多少影響力？</p>
+                        <h3 class="text-xl font-bold mb-2">評估重要性 (Evaluate)</h3>
+                        <p class="text-blue-100 opacity-80">這項任務對組織的戰略目標與關鍵成果有多少影響力？</p>
                     </div>
                 </div>
 
+                <!-- Step 3 -->
                 <div class="relative reveal">
-                    <div class="absolute -left-[52px] w-10 h-10 bg-brand-accent text-brand-dark rounded-full flex items-center justify-center font-bold border-4 border-brand-dark z-10">3</div>
-                    <div class="bg-white/5 p-4 rounded-lg border border-brand-accent/30">
-                        <h3 class="text-xl font-bold mb-2 text-brand-accent">關鍵判斷：領導者必要性</h3>
-                        <p class="text-slate-300">這是否真的需要你的「獨特技能、權威或關係」？這是區分矩陣的核心。</p>
+                    <div class="absolute -left-[52px] w-10 h-10 bg-brand-accent text-white rounded-full flex items-center justify-center font-bold border-4 border-brand-primary z-10 shadow-lg">3</div>
+                    <div class="bg-white/10 p-4 rounded-lg border border-white/20 backdrop-blur-sm">
+                        <h3 class="text-xl font-bold mb-2 text-brand-accent-light">關鍵判斷：領導者必要性</h3>
+                        <p class="text-blue-100 opacity-90">這是否真的需要你的「獨特技能、權威或關係」？這是區分矩陣的核心。</p>
                     </div>
                 </div>
 
+                <!-- Step 4 -->
                 <div class="relative reveal">
-                    <div class="absolute -left-[52px] w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-dark z-10">4</div>
+                    <div class="absolute -left-[52px] w-10 h-10 bg-white text-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-primary z-10 shadow-lg">4</div>
                     <div>
-                        <h3 class="text-xl font-bold mb-2">分類歸位</h3>
-                        <p class="text-slate-400">將每個任務放入 Q1-Q4 相應象限中。</p>
+                        <h3 class="text-xl font-bold mb-2">分類歸位 (Sort)</h3>
+                        <p class="text-blue-100 opacity-80">將每個任務放入 Q1-Q4 相應象限中。</p>
                     </div>
                 </div>
 
+                <!-- Step 5 -->
                 <div class="relative reveal">
-                    <div class="absolute -left-[52px] w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-dark z-10">5</div>
+                    <div class="absolute -left-[52px] w-10 h-10 bg-white text-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-primary z-10 shadow-lg">5</div>
                     <div>
-                        <h3 class="text-xl font-bold mb-2">採取行動</h3>
-                        <p class="text-slate-400">Q1 親自執行、Q2 策略授權、Q3 監督評估、Q4 淘汰委派。</p>
+                        <h3 class="text-xl font-bold mb-2">採取行動 (Act)</h3>
+                        <p class="text-blue-100 opacity-80">Q1 親自執行、Q2 策略授權、Q3 監督評估、Q4 淘汰委派。</p>
                     </div>
                 </div>
 
+                <!-- Step 6 -->
                 <div class="relative reveal">
-                    <div class="absolute -left-[52px] w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-dark z-10">6</div>
+                    <div class="absolute -left-[52px] w-10 h-10 bg-white text-brand-primary rounded-full flex items-center justify-center font-bold border-4 border-brand-primary z-10 shadow-lg">6</div>
                     <div>
-                        <h3 class="text-xl font-bold mb-2">定期審查</h3>
-                        <p class="text-slate-400">隨著團隊成長，原本屬於 Q1 的任務可能會移至 Q2，持續動態調整。</p>
+                        <h3 class="text-xl font-bold mb-2">定期審查 (Review)</h3>
+                        <p class="text-blue-100 opacity-80">隨著團隊成長，原本屬於 Q1 的任務可能會移至 Q2，持續動態調整。</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-slate-900 text-slate-500 py-12 border-t border-slate-800">
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-slate-400 py-16 border-t border-slate-800">
         <div class="container mx-auto px-4 text-center">
-            <p class="mb-4">
-                <i class="fa-solid fa-quote-left text-slate-600 mr-2"></i>
-                有效的領導在於識別哪些工作需要親自處理，哪些可以有效地委派給團隊成員。
-                <i class="fa-solid fa-quote-right text-slate-600 ml-2"></i>
-            </p>
-            <p class="text-sm">Based on: The Empowerment Delegation Matrix: A New Framework for Leadership and Task Allocation</p>
+            
+            <div class="mb-8">
+                <a href="http://Cqi365.net" target="_blank" class="inline-flex items-center gap-2 text-2xl font-bold text-white mb-2 hover:text-brand-accent transition">
+                    CQI 365
+                </a>
+                <p class="text-brand-accent font-medium tracking-wider text-sm uppercase mb-6">Continuous Quality Improvement 365 days</p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-500">
+                    <span class="px-3 py-1 border border-slate-700 rounded-full">Efficiency 效率</span>
+                    <span class="px-3 py-1 border border-slate-700 rounded-full">Medicine 醫學</span>
+                    <span class="px-3 py-1 border border-slate-700 rounded-full">Quality 品質</span>
+                    <span class="px-3 py-1 border border-slate-700 rounded-full">Tools 工具</span>
+                    <span class="px-3 py-1 border border-slate-700 rounded-full">Information 資訊</span>
+                </div>
+            </div>
+
+            <div class="max-w-2xl mx-auto mb-10 p-6 bg-slate-800/50 rounded-xl">
+                <p class="italic text-slate-300">
+                    <i class="fa-solid fa-quote-left text-brand-primary mr-2"></i>
+                    有效的領導在於識別哪些工作需要親自處理，哪些可以有效地委派給團隊成員。
+                    <i class="fa-solid fa-quote-right text-brand-primary ml-2"></i>
+                </p>
+            </div>
+            
+            <p class="text-xs text-slate-600">Based on: The Empowerment Delegation Matrix: A New Framework for Leadership and Task Allocation</p>
             <div class="mt-8">
-                <a href="#intro" class="inline-block p-3 rounded-full bg-slate-800 hover:bg-slate-700 transition">
+                <a href="#intro" class="inline-block p-3 rounded-full bg-slate-800 hover:bg-slate-700 text-white transition hover:-translate-y-1">
                     <i class="fa-solid fa-arrow-up"></i>
                 </a>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script>
         // Intersection Observer for Reveal Animations
         document.addEventListener('DOMContentLoaded', () => {
